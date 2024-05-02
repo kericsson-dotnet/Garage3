@@ -7,12 +7,13 @@
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int Age { get; set; }
-        public List<Vehicle> Vehicles { get; set; } // Navigation property for vehicles owned by the member
 
-        // Constructor
+        // Initialize list in the property declaration
+        public List<Vehicle> Vehicles { get; set; } = new List<Vehicle>(); 
+
+        
         public User()
         {
-            Vehicles = new List<Vehicle>();
         }
     }
 }

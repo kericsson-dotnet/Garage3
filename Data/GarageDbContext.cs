@@ -5,10 +5,10 @@ namespace Garage.Data;
 
 public class GarageDbContext : DbContext
 {
-    public DbSet<User> Users { get; set; }
+    //public DbSet<User> Users { get; set; }
     public DbSet<Vehicle> Vehicles { get; set; }
-    public DbSet<ParkingEvent> ParkingEvents { get; set; }
-    public DbSet<VehicleType> VehicleTypes { get; set; }
+    //public DbSet<ParkingEvent> ParkingEvents { get; set; }
+    //public DbSet<VehicleType> VehicleTypes { get; set; }
 
 
     protected readonly IConfiguration Configuration;
