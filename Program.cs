@@ -13,6 +13,10 @@ builder.Services.AddDbContext<GarageDbContext>(options =>
 
 builder.Services.AddScoped<IRepository<User>, UserRepository>();
 
+
+builder.Services.AddDbContext<GarageDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.")));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
