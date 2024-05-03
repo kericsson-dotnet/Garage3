@@ -13,6 +13,8 @@ builder.Services.AddDbContext<GarageDbContext>(options =>
 
 builder.Services.AddScoped<IRepository<User>, UserRepository>();
 builder.Services.AddScoped<IRepository<Vehicle>, VehicleRepository>();
+builder.Services.AddScoped<IRepository<VehicleType>, VehicleTypeRepository>();
+builder.Services.AddScoped<IRepository<ParkingEvent>, ParkingEventRepository>();
 
 builder.Services.AddDbContext<GarageDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.")));
@@ -45,6 +47,7 @@ app.Services.GetService<IHostApplicationLifetime>().ApplicationStarted.Register(
     // Create initial data here.
     using (var scope = app.Services.CreateScope())
     {
+        // Basic seed for Users
         var userRepository = scope.ServiceProvider.GetRequiredService<IRepository<User>>();
         var users = await userRepository.GetAll();
         // Only create when database is empty. 
@@ -58,6 +61,21 @@ app.Services.GetService<IHostApplicationLifetime>().ApplicationStarted.Register(
                 Age = 44
             };
             await userRepository.Add(newUser);
+        }
+
+        // Basic seed for ParkingEvents
+        var parkingEventRepository = scope.ServiceProvider.GetRequiredService<IRepository<ParkingEvent>>();
+        var parkingEvents = await parkingEventRepository.GetAll();
+        if (!parkingEvents.Any())
+        {
+            var user = await userRepository.Get(1);
+            var newParkingEvent = new ParkingEvent
+            {
+                CheckInTime = DateTime.Now.AddHours(-2),
+                CheckOutTime = DateTime.Now,
+                // waiting for code : Vehicle = 
+            };
+            await parkingEventRepository.Add(newParkingEvent);
         }
     }
 });
