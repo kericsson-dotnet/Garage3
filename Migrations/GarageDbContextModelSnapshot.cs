@@ -24,11 +24,11 @@ namespace Garage.Migrations
 
             modelBuilder.Entity("Garage.Models.ParkingEvent", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ParkingEventId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ParkingEventId"));
 
                     b.Property<DateTime>("CheckInTime")
                         .HasColumnType("datetime2");
@@ -39,8 +39,9 @@ namespace Garage.Migrations
                     b.Property<int>("VehicleId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ParkingEventId");
 
+                    b.HasIndex("VehicleId");
                     b.HasIndex("VehicleId")
                         .IsUnique();
 
@@ -49,11 +50,11 @@ namespace Garage.Migrations
 
             modelBuilder.Entity("Garage.Models.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
                     b.Property<int>("Age")
                         .HasColumnType("int");
@@ -70,18 +71,18 @@ namespace Garage.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
 
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Garage.Models.Vehicle", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("VehicleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VehicleId"));
 
                     b.Property<string>("Brand")
                         .IsRequired()
@@ -108,7 +109,7 @@ namespace Garage.Migrations
                     b.Property<int>("VehicleTypeId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("VehicleId");
 
                     b.HasIndex("UserId");
 
@@ -119,11 +120,11 @@ namespace Garage.Migrations
 
             modelBuilder.Entity("Garage.Models.VehicleType", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("VehicleTypeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VehicleTypeId"));
 
                     b.Property<float>("SlotsOccupied")
                         .HasColumnType("real");
@@ -132,7 +133,7 @@ namespace Garage.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("VehicleTypeId");
 
                     b.ToTable("VehicleTypes");
                 });
@@ -140,8 +141,8 @@ namespace Garage.Migrations
             modelBuilder.Entity("Garage.Models.ParkingEvent", b =>
                 {
                     b.HasOne("Garage.Models.Vehicle", "Vehicle")
-                        .WithOne("ParkingEvent")
-                        .HasForeignKey("Garage.Models.ParkingEvent", "VehicleId")
+                        .WithMany()
+                        .HasForeignKey("VehicleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
