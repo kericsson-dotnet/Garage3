@@ -22,22 +22,22 @@ public class ParkingEventRepository : IRepository<ParkingEvent>
         return await _context.ParkingEvents.FindAsync(id);
     }
 
-    public async Task Add(ParkingEvent ParkingEvent)
+    public async Task Add(ParkingEvent parkingEvent)
     {
-        _context.ParkingEvents.Add(ParkingEvent);
+        _context.ParkingEvents.Add(parkingEvent);
         await _context.SaveChangesAsync();
     }
 
-    public async Task Update(ParkingEvent ParkingEvent)
+    public async Task Update(ParkingEvent parkingEvent)
     {
-        _context.Entry(ParkingEvent).State = EntityState.Modified;
+        _context.Entry(parkingEvent).State = EntityState.Modified;
         await _context.SaveChangesAsync();
     }
 
     public async Task Delete(int id)
     {
-        var ParkingEvent = await _context.ParkingEvents.FindAsync(id);
-        _context.ParkingEvents.Remove(ParkingEvent);
+        var parkingEvent = await _context.ParkingEvents.FindAsync(id);
+        _context.ParkingEvents.Remove(parkingEvent);
         await _context.SaveChangesAsync();
     }
 }
