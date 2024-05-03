@@ -9,11 +9,12 @@
         public int Age { get; set; }
 
         // Initialize list in the property declaration
-        public List<Vehicle> Vehicles { get; set; } = new List<Vehicle>(); 
+        public List<Vehicle> Vehicles { get; set; } = new List<Vehicle>();
 
-        
+
         public User()
         {
+            
         }
     }
 }

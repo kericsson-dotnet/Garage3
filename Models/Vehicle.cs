@@ -9,12 +9,19 @@
         public string Model { get; set; }
         public string Color { get; set; }
         public int NumberOfWheels { get; set; }
-        //public VehicleType VehicleType { get; set; }
-        
+
+        // Foreign key property
+        public int VehicleTypeId { get; set; }
+
+        public VehicleType VehicleType { get; set; }
+
+        // Navigation property for the parking event (one-to-one)
+        public ParkingEvent ParkingEvent { get; set; }
+
         // Foreign key property
         public int UserId { get; set; }
 
         // Navigation property for the owning user
-        //public User User { get; set; }
+        public User User { get; set; }
     }
 }

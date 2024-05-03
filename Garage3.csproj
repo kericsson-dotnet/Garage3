@@ -8,12 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Models\ParkingEvent.cs" />
-    <Compile Remove="Models\User.cs" />
-    <Compile Remove="Models\VehicleType.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
