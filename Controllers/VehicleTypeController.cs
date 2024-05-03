@@ -15,8 +15,8 @@ namespace Garage.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var vehicletypes = await _repository.GetAll();
-            return View(vehicletypes);
+            var vehicleType = await _repository.GetAll();
+            return View(vehicleType);
         }
 
         public IActionResult Create()
@@ -25,14 +25,14 @@ namespace Garage.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(VehicleType vehicletype)
+        public async Task<IActionResult> Create(VehicleType vehicleType)
         {
             if (ModelState.IsValid)
             {
-                await _repository.Add(vehicletype);
+                await _repository.Add(vehicleType);
                 return RedirectToAction(nameof(Index));
             }
-            return View(vehicletype);
+            return View(vehicleType);
         }
 
         // Implement other actions (Edit, Details, Delete)...
