@@ -45,6 +45,7 @@ app.Services.GetService<IHostApplicationLifetime>().ApplicationStarted.Register(
     // Create initial data here.
     using (var scope = app.Services.CreateScope())
     {
+        // Basic seed for Users
         var userRepository = scope.ServiceProvider.GetRequiredService<IRepository<User>>();
         var users = await userRepository.GetAll();
         // Only create when database is empty. 
@@ -58,6 +59,21 @@ app.Services.GetService<IHostApplicationLifetime>().ApplicationStarted.Register(
                 Age = 44
             };
             await userRepository.Add(newUser);
+        }
+
+        // Basic seed for ParkingEvents
+        var parkingEventRepository = scope.ServiceProvider.GetRequiredService<IRepository<ParkingEvent>>();
+        var parkingEvents = await parkingEventRepository.GetAll();
+        if (!parkingEvents.Any())
+        {
+            var user = await userRepository.Get(1);
+            var newParkingEvent = new ParkingEvent
+            {
+                CheckInTime = DateTime.Now.AddHours(-2),
+                CheckOutTime = DateTime.Now,
+                // waiting for code : Vehicle = 
+            };
+            await parkingEventRepository.Add(newParkingEvent);
         }
     }
 });
