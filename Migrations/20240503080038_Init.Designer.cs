@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Garage.Migrations
 {
     [DbContext(typeof(GarageDbContext))]
-    [Migration("20240502120144_Init")]
+    [Migration("20240503080038_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -27,11 +27,11 @@ namespace Garage.Migrations
 
             modelBuilder.Entity("Garage.Models.ParkingEvent", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ParkingEventId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ParkingEventId"));
 
                     b.Property<DateTime>("CheckInTime")
                         .HasColumnType("datetime2");
@@ -39,23 +39,23 @@ namespace Garage.Migrations
                     b.Property<DateTime>("CheckoutTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("vehicleId")
+                    b.Property<int>("VehicleId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ParkingEventId");
 
-                    b.HasIndex("vehicleId");
+                    b.HasIndex("VehicleId");
 
                     b.ToTable("ParkingEvents");
                 });
 
             modelBuilder.Entity("Garage.Models.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
                     b.Property<int>("Age")
                         .HasColumnType("int");
@@ -72,18 +72,18 @@ namespace Garage.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
 
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Garage.Models.Vehicle", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("VehicleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VehicleId"));
 
                     b.Property<string>("Brand")
                         .IsRequired()
@@ -100,19 +100,19 @@ namespace Garage.Migrations
                     b.Property<int>("NumberOfWheels")
                         .HasColumnType("int");
 
-                    b.Property<int>("OwnerId")
-                        .HasColumnType("int");
-
                     b.Property<string>("RegNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.Property<int>("VehicleTypeId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("VehicleId");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("UserId");
 
                     b.HasIndex("VehicleTypeId");
 
@@ -121,11 +121,11 @@ namespace Garage.Migrations
 
             modelBuilder.Entity("Garage.Models.VehicleType", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("VehicleTypeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VehicleTypeId"));
 
                     b.Property<float>("SlotsOccupied")
                         .HasColumnType("real");
@@ -134,27 +134,27 @@ namespace Garage.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("VehicleTypeId");
 
                     b.ToTable("VehicleTypes");
                 });
 
             modelBuilder.Entity("Garage.Models.ParkingEvent", b =>
                 {
-                    b.HasOne("Garage.Models.Vehicle", "vehicle")
+                    b.HasOne("Garage.Models.Vehicle", "Vehicle")
                         .WithMany()
-                        .HasForeignKey("vehicleId")
+                        .HasForeignKey("VehicleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("vehicle");
+                    b.Navigation("Vehicle");
                 });
 
             modelBuilder.Entity("Garage.Models.Vehicle", b =>
                 {
                     b.HasOne("Garage.Models.User", "Owner")
                         .WithMany("Vehicles")
-                        .HasForeignKey("OwnerId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
