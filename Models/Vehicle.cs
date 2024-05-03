@@ -2,8 +2,9 @@
 {
     public class Vehicle
     {
+        public int VehicleId { get; set; }
+        public int UserId { get; set; }
         public User Owner { get; set; }
-        public int Id { get; set; }
         public string RegNumber { get; set; }
         public string Brand { get; set; }
         public string Model { get; set; }
