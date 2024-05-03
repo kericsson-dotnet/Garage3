@@ -19,8 +19,7 @@
         // Navigation property for the parking event (one-to-one)
         public ParkingEvent ParkingEvent { get; set; }
 
-        // Foreign key property
-        public int UserId { get; set; }
+        
 
         // Navigation property for the owning user
         public User User { get; set; }
