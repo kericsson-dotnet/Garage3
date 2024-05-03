@@ -21,22 +21,22 @@ public class VehicleTypeRepository : IRepository<VehicleType>
         return await _context.VehicleTypes.FindAsync(id);
     }
 
-    public async Task Add(VehicleType vehicletype)
+    public async Task Add(VehicleType vehicleType)
     {
-        _context.VehicleTypes.Add(vehicletype);
+        _context.VehicleTypes.Add(vehicleType);
         await _context.SaveChangesAsync();
     }
 
-    public async Task Update(VehicleType vehicletype)
+    public async Task Update(VehicleType vehicleType)
     {
-        _context.Entry(vehicletype).State = EntityState.Modified;
+        _context.Entry(vehicleType).State = EntityState.Modified;
         await _context.SaveChangesAsync();
     }
 
     public async Task Delete(int id)
     {
-        var vehicletype = await _context.VehicleTypes.FindAsync(id);
-        _context.VehicleTypes.Remove(vehicletype);
+        var vehicleType = await _context.VehicleTypes.FindAsync(id);
+        _context.VehicleTypes.Remove(vehicleType);
         await _context.SaveChangesAsync();
     }
 }
