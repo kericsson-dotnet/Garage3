@@ -21,10 +21,10 @@ public class GarageDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<ParkingEvent>()
-            .HasOne(p => p.Vehicle)
-            .WithOne(v => v.ParkingEvent)
-            .HasForeignKey<ParkingEvent>(pe => pe.VehicleId);
+        ////modelBuilder.Entity<ParkingEvent>()
+        ////    .HasOne(p => p.Vehicle)
+        ////    .WithOne(v => v.ParkingEvent)
+        ////    .HasForeignKey<ParkingEvent>(pe => pe.VehicleId);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
