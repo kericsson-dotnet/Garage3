@@ -111,8 +111,7 @@ namespace Garage.Controllers
 
         private bool VehicleExists(int id)
         {
-            // You can implement your own logic to check if a vehicle exists
-            // For simplicity, returning true here assuming all ids are valid
+            
             return true;
         }
 
