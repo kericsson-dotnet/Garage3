@@ -14,7 +14,7 @@
 
         public User()
         {
-            
+            Vehicles = new List<Vehicle>();
         }
     }
 }
