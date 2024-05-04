@@ -1,0 +1,36 @@
+﻿@model Garage.Models.Vehicle
+
+<h1>Edit Vehicle</h1>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="VehicleId" />
+    <div>
+        <label asp-for="UserId">User Id:</label>
+        <input asp-for="UserId" />
+    </div>
+    <div>
+        <label asp-for="RegNumber">Registration Number:</label>
+        <input asp-for="RegNumber" />
+    </div>
+    <div>
+        <label asp-for="Brand">Brand:</label>
+        <input asp-for="Brand" />
+    </div>
+    <div>
+        <label asp-for="Model">Model:</label>
+        <input asp-for="Model" />
+    </div>
+    <div>
+        <label asp-for="Color">Color:</label>
+        <input asp-for="Color" />
+    </div>
+    <div>
+        <label asp-for="NumberOfWheels">Number of Wheels:</label>
+        <input asp-for="NumberOfWheels" />
+    </div>
+    <div>
+        <label asp-for="VehicleType">Vehicle Type:</label>
+        <input asp-for="VehicleType" />
+    </div>
+    <button type="submit">Save</button>
+</form>
