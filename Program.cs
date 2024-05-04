@@ -12,6 +12,7 @@ builder.Services.AddDbContext<GarageDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.")));
 
 builder.Services.AddScoped<IRepository<User>, UserRepository>();
+builder.Services.AddScoped<IRepository<Vehicle>, VehicleRepository>();
 builder.Services.AddScoped<IRepository<VehicleType>, VehicleTypeRepository>();
 builder.Services.AddScoped<IRepository<ParkingEvent>, ParkingEventRepository>();
 
@@ -39,7 +40,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Vehicles}/{action=Index}/{id?}");
 
 app.Services.GetService<IHostApplicationLifetime>().ApplicationStarted.Register(async () =>
 {
