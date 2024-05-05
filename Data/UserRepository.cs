@@ -14,7 +14,7 @@ public class UserRepository : IRepository<User>
 
     public async Task<IEnumerable<User>> GetAll()
     {
-        return await _context.Users.ToListAsync();
+        return await _context.Users.Include(u => u.Vehicles).ToListAsync();
     }
 
     public async Task<User> Get(int id)
