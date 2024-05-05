@@ -19,7 +19,7 @@ namespace Garage.Data
         
         public async Task<IEnumerable<Vehicle>> GetAll()
         {
-            return await _context.Vehicles.ToListAsync();
+            return await _context.Vehicles.Include(v => v.Owner).Include(v => v.VehicleType).ToListAsync();
         }
 
         public async Task Add(Vehicle vehicle)
