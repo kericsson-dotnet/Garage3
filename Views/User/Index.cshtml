@@ -1,27 +1,29 @@
 @model IEnumerable<Garage.Models.User>
 
 <h1>Users</h1>
-
-<table>
-    <thead>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table border="1" cellspacing="0" cellpadding="5">
+    <thead style="background-color: #f2f2f2;">
         <tr>
-            <th>Personal Number</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Age</th>
-            <th>Vehicles</th>
+            <th style="padding: 10px;">Personal Number</th>
+            <th style="padding: 10px;">First Name</th>
+            <th style="padding: 10px;">Last Name</th>
+            <th style="padding: 10px;">Age</th>
+            <th style="padding: 10px;">Vehicles</th>
         </tr>
     </thead>
     <tbody>
-    @foreach (var user in Model)
-    {
-        <tr>
-            <td>@user.PersonalNumber</td>
-            <td>@user.FirstName</td>
-            <td>@user.LastName</td>
-            <td>@user.Age</td>
-            <td>@string.Join(", ", user.Vehicles.Select(v => v.RegNumber))</td>
-        </tr>
-    }
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td style="padding: 10px;">@user.PersonalNumber</td>
+                <td style="padding: 10px;">@user.FirstName</td>
+                <td style="padding: 10px;">@user.LastName</td>
+                <td style="padding: 10px;">@user.Age</td>
+                <td style="padding: 10px;">@string.Join(", ", user.Vehicles.Select(v => v.RegNumber))</td>
+            </tr>
+        }
     </tbody>
 </table>
