@@ -14,7 +14,7 @@ public class ParkingEventRepository : IRepository<ParkingEvent>
 
     public async Task<IEnumerable<ParkingEvent>> GetAll()
     {
-        return await _context.ParkingEvents.ToListAsync();
+        return await _context.ParkingEvents.Include(pe => pe.Vehicle).ToListAsync();
     }
 
     public async Task<ParkingEvent> Get(int id)
