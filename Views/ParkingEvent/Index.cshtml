@@ -1,0 +1,23 @@
+@model IEnumerable<Garage.Models.ParkingEvent>
+
+<h1>ParkingEvents</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>CheckInTime</th>
+            <th>CheckOutTime</th>
+            <th>Vehicle</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var parkingEvent in Model)
+        {
+            <tr>
+                <td>@parkingEvent.CheckInTime</td>
+                <td>@parkingEvent.CheckOutTime</td>
+                <td>@parkingEvent.Vehicle.RegNumber</td>
+            </tr>
+        }
+    </tbody>
+</table>
