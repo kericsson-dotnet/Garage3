@@ -7,9 +7,8 @@
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int Age { get; set; }
-        public List<Vehicle> Vehicles { get; set; } // Navigation property for vehicles owned by the member
-
-        // Constructor
+        public int VehicleId { get; set; }
+        public List<Vehicle> Vehicles { get; set; }
         public User()
         {
             Vehicles = new List<Vehicle>();
