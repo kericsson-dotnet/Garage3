@@ -36,7 +36,7 @@ namespace Garage.Controllers
 
 
 
-        [HttpPost]
+        [HttpPost, ActionName("Create")]
         public async Task<IActionResult> Create(Vehicle vehicle)
         {
             try
@@ -65,7 +65,7 @@ namespace Garage.Controllers
             return View(vehicle);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Vehicle vehicle)
         {
