@@ -19,7 +19,7 @@ public class ParkingEventRepository : IRepository<ParkingEvent>
 
     public async Task<ParkingEvent> Get(int id)
     {
-        return await _context.ParkingEvents.FindAsync(id);
+        return await _context.ParkingEvents.Include(pe => pe.Vehicle).AsNoTracking().FirstAsync(pe => pe.ParkingEventId == id);
     }
 
     public async Task Add(ParkingEvent parkingEvent)
@@ -34,9 +34,8 @@ public class ParkingEventRepository : IRepository<ParkingEvent>
         await _context.SaveChangesAsync();
     }
 
-    public async Task Delete(int id)
+    public async Task Delete(ParkingEvent parkingEvent)
     {
-        var parkingEvent = await _context.ParkingEvents.FindAsync(id);
         _context.ParkingEvents.Remove(parkingEvent);
         await _context.SaveChangesAsync();
     }
