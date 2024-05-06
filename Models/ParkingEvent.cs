@@ -1,4 +1,6 @@
-﻿namespace Garage.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Garage.Models
 {
     public class ParkingEvent
     {
@@ -7,5 +9,6 @@
         public DateTime CheckOutTime { get; set; }
         public int VehicleId { get; set; }
         public Vehicle Vehicle { get; set; }
+       
     }
 }

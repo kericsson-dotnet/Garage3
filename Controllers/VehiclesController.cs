@@ -19,6 +19,7 @@ namespace Garage.Controllers
             return View(vehicles);
         }
 
+
         public async Task<IActionResult> Details(int id)
         {
             var vehicle = await _repository.Get(id);
@@ -126,5 +127,7 @@ namespace Garage.Controllers
             // For simplicity, returning true here assuming all ids are valid
             return true;
         }
+
+
     }
 }

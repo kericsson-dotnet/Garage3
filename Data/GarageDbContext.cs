@@ -19,6 +19,20 @@ public class GarageDbContext : DbContext
         Database.EnsureCreated();
     }
 
+    //protected override void OnModelCreating(ModelBuilder modelBuilder)
+    //{
+    //    modelBuilder.Entity<ParkingEvent>()
+    //        .HasOne(p => p.Vehicle)
+    //        .WithOne(v => v.ParkingEvent)
+    //        .HasForeignKey<ParkingEvent>(pe => pe.VehicleId);
+
+    //    modelBuilder.Entity<Vehicle>()
+    //    .HasOne(v => v.User)
+    //    .WithMany(u => u.Vehicles)
+    //    .HasForeignKey(v => v.UserId)
+    //    .OnDelete(DeleteBehavior.Restrict);
+    //}
+
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
         // connect to sqlite database

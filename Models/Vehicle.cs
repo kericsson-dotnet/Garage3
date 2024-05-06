@@ -1,4 +1,6 @@
-﻿namespace Garage.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Garage.Models
 {
     public class Vehicle
     {
