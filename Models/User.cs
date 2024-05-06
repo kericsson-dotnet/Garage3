@@ -7,11 +7,7 @@
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int Age { get; set; }
-
-        // Initialize list in the property declaration
-        public List<Vehicle> Vehicles { get; set; } = new List<Vehicle>();
-
-
+        public List<Vehicle> Vehicles { get; set; }
         public User()
         {
             Vehicles = new List<Vehicle>();

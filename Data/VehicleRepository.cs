@@ -14,12 +14,12 @@ namespace Garage.Data
 
         public async Task<Vehicle> Get(int id)
         {
-            return await _context.Vehicles.FindAsync(id);
+            return await _context.Vehicles.Include(v => v.Owner).Include(v => v.VehicleType).AsNoTracking().FirstAsync(v => v.VehicleId == id);
         }
         
         public async Task<IEnumerable<Vehicle>> GetAll()
         {
-            return await _context.Vehicles.ToListAsync();
+            return await _context.Vehicles.Include(v => v.Owner).Include(v => v.VehicleType).ToListAsync();
         }
 
         public async Task Add(Vehicle vehicle)
@@ -34,7 +34,7 @@ namespace Garage.Data
             await _context.SaveChangesAsync();
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(Vehicle vehicle)
         {
             var vehicle = await _context.Vehicles.FindAsync(id);
             _context.Vehicles.Remove(vehicle);

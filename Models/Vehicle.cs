@@ -12,8 +12,7 @@ namespace Garage.Models
         public string Model { get; set; }
         public string Color { get; set; }
         public int NumberOfWheels { get; set; }
-        public VehicleType VehicleType { get; set; }
-       
-
+        public int VehicleTypeId { get; set; }
+        public VehicleType VehicleType { get; set; }        
     }
 }

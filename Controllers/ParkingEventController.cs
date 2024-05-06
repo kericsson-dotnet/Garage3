@@ -2,6 +2,7 @@ using Garage.Models;
 using Garage.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Garage.Controllers
 {
@@ -28,10 +29,17 @@ namespace Garage.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ParkingEvent parkingEvent)
         {
-            if (ModelState.IsValid)
+            try
             {
-                await _repository.Add(parkingEvent);
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    await _repository.Add(parkingEvent);
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (DbUpdateException)
+            {
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists contect system administrator.");
             }
             return View(parkingEvent);
         }

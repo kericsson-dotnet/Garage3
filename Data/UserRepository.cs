@@ -14,12 +14,15 @@ public class UserRepository : IRepository<User>
 
     public async Task<IEnumerable<User>> GetAll()
     {
-        return await _context.Users.ToListAsync();
+        return await _context.Users.Include(u => u.Vehicles).ToListAsync();
     }
 
     public async Task<User> Get(int id)
     {
-        return await _context.Users.FindAsync(id);
+        return await _context.Users
+            .Include(u => u.Vehicles)
+            .AsNoTracking()
+            .FirstAsync(u => u.UserId == id);
     }
 
     public async Task Add(User user)
@@ -34,9 +37,8 @@ public class UserRepository : IRepository<User>
         await _context.SaveChangesAsync();
     }
 
-    public async Task Delete(int id)
+    public async Task Delete(User user)
     {
-        var user = await _context.Users.FindAsync(id);
         _context.Users.Remove(user);
         await _context.SaveChangesAsync();
     }
