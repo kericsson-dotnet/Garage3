@@ -87,6 +87,30 @@ namespace Garage.Controllers
             return View(vehicle);
         }
 
+        public List<Vehicle> LoadVehicleSeedsToList()
+        {
+            var relativePath = Path.Combine("Data", "MockupData", "SeedVehicles.txt");
+            var fullPath = Path.GetFullPath(relativePath);
+            var json = System.IO.File.ReadAllText(fullPath);
+            var vehicleSeeds = JsonConvert.DeserializeObject<List<Vehicle>>(json);
+            return vehicleSeeds!;
+        }
+
+        public async Task<IActionResult> AddVehicleSeedsToDb()
+        {
+            var repository = _repository;
+            var vehiclesController = new VehiclesController(repository);
+            await vehiclesController.AddVehicleSeedsToDb();
+
+            var vehicleSeeds = LoadVehicleSeedsToList();
+
+            foreach (var vehicle in vehicleSeeds)
+            {
+                await _repository.Add(vehicle);
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Vehicle vehicle)

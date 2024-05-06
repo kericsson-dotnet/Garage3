@@ -1,0 +1,7 @@
+﻿[
+	{"TypeName": "Airplane", "SlotsOccupied": "3"},	
+	{"TypeName": "Boat", "SlotsOccupied": "2"},	
+    {"TypeName": "Bus", "SlotsOccupied": "2"},
+    {"TypeName": "Truck", "SlotsOccupied": "2"},
+	{"TypeName": "Motorcycle", "SlotsOccupied": "0.3"}
+]
