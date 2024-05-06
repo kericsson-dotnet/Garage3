@@ -36,7 +36,7 @@ namespace Garage.Data
 
         public async Task Delete(Vehicle vehicle)
         {
-            var vehicle = await _context.Vehicles.FindAsync(id);
+            
             _context.Vehicles.Remove(vehicle);
             await _context.SaveChangesAsync();
         }
