@@ -1,17 +1,20 @@
 ﻿using Garage.Data;
 using Garage.Models;
+using Garage.Services;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace Garage.Controllers
 {
     public class VehicleTypeController : Controller
     {
         private readonly IRepository<VehicleType> _repository;
+        private readonly ISeedingService _seedingService;
 
-        public VehicleTypeController(IRepository<VehicleType> repository)
+        public VehicleTypeController(IRepository<VehicleType> repository, ISeedingService seedingService)
         {
             _repository = repository;
+            _seedingService = seedingService;
         }
 
         public async Task<IActionResult> Index()
@@ -39,24 +42,17 @@ namespace Garage.Controllers
         
         public List<VehicleType> LoadVehicleTypeSeedsToList()
         {
-            var relativePath = Path.Combine("Data", "MockupData", "SeedVehicleTypess.txt");
+            var relativePath = Path.Combine("Data", "MockupData", "SeedVehicleTypes.txt");
             var fullPath = Path.GetFullPath(relativePath);
             var json = System.IO.File.ReadAllText(fullPath);
-            var vehicleTypeSeeds = JsonConvert.DeserializeObject<List<VehicleType>>(json);
+            var vehicleTypeSeeds = JsonSerializer.Deserialize<List<VehicleType>>(json);
             return vehicleTypeSeeds!;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddVehicleTypeSeedsToDb()
+        public async Task AddVehicleTypeSeedsToDb()
         {
             var vehicleTypeSeeds = LoadVehicleTypeSeedsToList();
-
-            foreach (var vehicleType in vehicleTypeSeeds)
-            {
-                await _repository.Add(vehicleType);
-            }
-            return RedirectToAction(nameof(Index));
+            await _seedingService.AddVehicleTypeSeedsAsync(vehicleTypeSeeds);
         }
-        // Implement other actions (Edit, Details, Delete)...
     }
 }

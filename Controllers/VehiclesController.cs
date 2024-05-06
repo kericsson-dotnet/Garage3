@@ -1,8 +1,10 @@
 ﻿using Garage.Data;
 using Garage.Models;
+using Garage.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace Garage.Controllers
 {
@@ -13,9 +15,10 @@ namespace Garage.Controllers
         private readonly IRepository<VehicleType> _vehicleTypeRepository;
 
 
-        public VehiclesController(IRepository<Vehicle> repository, IRepository<User> userRepository, IRepository<VehicleType> vehicleTypeRepository)
+        public VehiclesController(IRepository<Vehicle> repository, IRepository<User> userRepository, IRepository<VehicleType> vehicleTypeRepository, ISeedingService seedingService)
         {
             _repository = repository;
+            _seedingService = seedingService;
             _userRepository = userRepository;
             _vehicleTypeRepository = vehicleTypeRepository;
         }
@@ -92,22 +95,15 @@ namespace Garage.Controllers
             var relativePath = Path.Combine("Data", "MockupData", "SeedVehicles.txt");
             var fullPath = Path.GetFullPath(relativePath);
             var json = System.IO.File.ReadAllText(fullPath);
-            var vehicleSeeds = JsonConvert.DeserializeObject<List<Vehicle>>(json);
+            var vehicleSeeds = JsonSerializer.Deserialize<List<Vehicle>>(json);
             return vehicleSeeds!;
         }
 
+        [HttpPost]
         public async Task<IActionResult> AddVehicleSeedsToDb()
         {
-            var repository = _repository;
-            var vehiclesController = new VehiclesController(repository);
-            await vehiclesController.AddVehicleSeedsToDb();
-
             var vehicleSeeds = LoadVehicleSeedsToList();
-
-            foreach (var vehicle in vehicleSeeds)
-            {
-                await _repository.Add(vehicle);
-            }
+            await _seedingService.AddVehicleSeedsAsync(vehicleSeeds);
             return RedirectToAction(nameof(Index));
         }
 
@@ -167,7 +163,5 @@ namespace Garage.Controllers
             // For simplicity, returning true here assuming all ids are valid
             return true;
         }
-
-
     }
 }
