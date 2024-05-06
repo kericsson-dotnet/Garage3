@@ -29,7 +29,7 @@ namespace Garage.Controllers
 
             var user = await _repository.Get(Int16.Parse(id));
 
-            return user is not null ? View(user) : NotFound();
+            return user is null ? NotFound() : View(user);
         }
 
         public IActionResult Create()
@@ -102,7 +102,7 @@ namespace Garage.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             User user = await _repository.Get(id);
-            if(user == null)
+            if (user == null)
             {
                 return NotFound();
             }
