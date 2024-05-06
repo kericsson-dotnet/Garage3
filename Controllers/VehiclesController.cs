@@ -19,7 +19,6 @@ namespace Garage.Controllers
             return View(vehicles);
         }
 
-
         public async Task<IActionResult> Details(int id)
         {
             var vehicle = await _repository.Get(id);
@@ -40,10 +39,17 @@ namespace Garage.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Vehicle vehicle)
         {
-            if (ModelState.IsValid)
+            try
             {
-                await _repository.Add(vehicle);
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    await _repository.Add(vehicle);
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (DbUpdateException)
+            {
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists contect system administrator.");
             }
             return View(vehicle);
         }
@@ -105,7 +111,12 @@ namespace Garage.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _repository.Delete(id);
+            var vehicle = await _repository.Get(id);
+            if(vehicle == null)
+            {
+                return NotFound();
+            }
+            await _repository.Delete(vehicle);
             return RedirectToAction(nameof(Index));
         }
 
@@ -115,7 +126,5 @@ namespace Garage.Controllers
             // For simplicity, returning true here assuming all ids are valid
             return true;
         }
-
-
     }
 }
