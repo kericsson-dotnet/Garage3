@@ -22,11 +22,7 @@ namespace Garage.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var vehicle = await _repository.Get(id);
-            if (vehicle == null)
-            {
-                return NotFound();
-            }
-            return View(vehicle);
+            return vehicle == null ? NotFound() : View(vehicle);
         }
 
         public IActionResult Create()
@@ -53,7 +49,6 @@ namespace Garage.Controllers
             }
             return View(vehicle);
         }
-
 
         public async Task<IActionResult> Edit(int id)
         {

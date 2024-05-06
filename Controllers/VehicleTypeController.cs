@@ -20,12 +20,18 @@ namespace Garage.Controllers
             return View(vehicleType);
         }
 
+        public async Task<IActionResult> Details(int id)
+        {
+            var vehicleType = await _repository.Get(id);
+            return vehicleType is null ? NotFound() : View(vehicleType);
+        }
+
         public IActionResult Create()
         {
             return View();
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Create")]
         public async Task<IActionResult> Create(VehicleType vehicleType)
         {
             try
@@ -43,6 +49,72 @@ namespace Garage.Controllers
             return View(vehicleType);
         }
 
-        // Implement other actions (Edit, Details, Delete)...
+        public async Task<IActionResult> Edit(int id)
+        {
+            var vehicleType = await _repository.Get(id);
+            return vehicle is null ? NotFound() : View(vehicleType);
+        }
+
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, VehicleType vehicleType)
+        {
+            if (id != vehicleType.VehicleTypeId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _repository.Update(vehicleType);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!VehicleExists(vehicleType.VehicleTypeId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(vehicle);
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var vehicle = await _repository.Get(id);
+            if (vehicle == null)
+            {
+                return NotFound();
+            }
+
+            return View(vehicle);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var vehicle = await _repository.Get(id);
+            if (vehicle == null)
+            {
+                return NotFound();
+            }
+            await _repository.Delete(vehicle);
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool VehicleExists(int id)
+        {
+            // You can implement your own logic to check if a vehicle exists
+            // For simplicity, returning true here assuming all ids are valid
+            return true;
+        }
     }
 }

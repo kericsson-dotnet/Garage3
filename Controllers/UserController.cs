@@ -20,15 +20,9 @@ namespace Garage.Controllers
             return View(users);
         }
 
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id is null)
-            {
-                return NotFound();
-            }
-
-            var user = await _repository.Get(Int16.Parse(id));
-
+            var user = await _repository.Get(id);
             return user is null ? NotFound() : View(user);
         }
 
