@@ -2,13 +2,20 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="custom-container3 d-flex justify-content-between align-items-start">
+    <form asp-controller="Vehicles" asp-action="AddVehicleSeedsToDb" method="post">
+        <button type="submit">Seed Vehicles</button>
+    </form>
+</div>
+<br />
+@* <div class="custom-container3 d-flex justify-content-between align-items-start">
+    <form asp-controller="Vehicles" asp-action="WipeAllVehicles" method="post">
+        <button type="submit">Wipe Vehicles</button>
+    </form>
 </div>
 <br />
 <div class="custom-container3 d-flex justify-content-between align-items-start">
-    <form asp-controller="User" asp-action="AddVehicleTypeSeedsToDb" method="post">
+    <form asp-controller="VehicleType" asp-action="AddVehicleTypeSeedsToDb" method="post">
         <button type="submit">Seed VehicleTypes</button>
     </form>
 </div>
@@ -17,4 +24,4 @@
     <form asp-controller="User" asp-action="WipeAllUsers" method="post">
         <button type="submit">Wipe Users</button>
     </form>
-</div>
+</div> *@

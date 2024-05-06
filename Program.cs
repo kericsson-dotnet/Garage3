@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Garage.Data;
 using Garage.Models;
+using Garage.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,10 @@ builder.Services.AddScoped<IRepository<User>, UserRepository>();
 builder.Services.AddScoped<IRepository<Vehicle>, VehicleRepository>();
 builder.Services.AddScoped<IRepository<VehicleType>, VehicleTypeRepository>();
 builder.Services.AddScoped<IRepository<ParkingEvent>, ParkingEventRepository>();
+
+
+// inject services for seeding of Vehicles/vehicleTypes (todo: users next)
+builder.Services.AddScoped<ISeedingService, SeedingService>();
 
 var app = builder.Build();
 
@@ -59,7 +64,7 @@ app.Services.GetService<IHostApplicationLifetime>().ApplicationStarted.Register(
             };
             await userRepository.Add(newUser);
         }
-        
+
         // Basic seed for VehicleTypes
         var vehicleTypeRepository = scope.ServiceProvider.GetRequiredService<IRepository<VehicleType>>();
         var vehicleTypes = await vehicleTypeRepository.GetAll();
