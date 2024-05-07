@@ -14,9 +14,28 @@ namespace Garage.Controllers
             _repository = repository;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
+            ViewData["NameSortParam"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             var users = await _repository.GetAll();
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    users = users.OrderByDescending(u => u.FirstName.Substring
+                    (0, Math.Min(2, u.FirstName.Length)))
+                        .ThenBy(u => u.FirstName)
+                        .ThenBy(u => u.LastName)
+                        .ToList();
+                    break;
+                default:
+                    users = users.OrderBy(u => u.FirstName.Substring
+                    (0, Math.Min(2, u.FirstName.Length)))
+                        .ThenBy(u => u.FirstName)
+                        .ThenBy(u => u.LastName)
+                        .ToList();
+                    break;
+            }
             return View(users);
         }
 
