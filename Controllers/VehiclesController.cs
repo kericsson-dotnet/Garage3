@@ -28,7 +28,6 @@ namespace Garage.Controllers
             return View(vehicles);
         }
 
-
         public async Task<IActionResult> Details(int id)
         {
             var vehicle = await _repository.Get(id);
@@ -90,22 +89,22 @@ namespace Garage.Controllers
             return View(vehicle);
         }
 
-        public List<Vehicle> LoadVehicleSeedsToList()
-        {
-            var relativePath = Path.Combine("Data", "MockupData", "SeedVehicles.txt");
-            var fullPath = Path.GetFullPath(relativePath);
-            var json = System.IO.File.ReadAllText(fullPath);
-            var vehicleSeeds = JsonSerializer.Deserialize<List<Vehicle>>(json);
-            return vehicleSeeds!;
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> AddVehicleSeedsToDb()
+        //{
+        //    var vehicleSeeds = LoadVehicleSeedsToList();
+        //    await _seedingService.AddVehicleSeedsAsync(vehicleSeeds);
+        //    return RedirectToAction(nameof(Index));
+        //}
 
-        [HttpPost]
-        public async Task<IActionResult> AddVehicleSeedsToDb()
-        {
-            var vehicleSeeds = LoadVehicleSeedsToList();
-            await _seedingService.AddVehicleSeedsAsync(vehicleSeeds);
-            return RedirectToAction(nameof(Index));
-        }
+        //public List<Vehicle> LoadVehicleSeedsToList()
+        //{
+        //    var relativePath = Path.Combine("Data", "MockupData", "SeedVehicles.txt");
+        //    var fullPath = Path.GetFullPath(relativePath);
+        //    var json = System.IO.File.ReadAllText(fullPath);
+        //    var vehicleSeeds = JsonSerializer.Deserialize<List<Vehicle>>(json);
+        //    return vehicleSeeds!;
+        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
