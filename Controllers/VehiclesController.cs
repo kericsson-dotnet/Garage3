@@ -19,11 +19,23 @@ namespace Garage.Controllers
             _userRepository = userRepository;
             _vehicleTypeRepository = vehicleTypeRepository;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
+            
             var vehicles = await _repository.GetAll();
+
+            // Filter vehicles based on the  search string
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                vehicles = vehicles.Where(v =>
+                    v.VehicleType.TypeName.Contains(searchString) || // Search by vehicle type
+                    v.RegNumber.Contains(searchString)); // Search by registration number
+            }
+
+            
             return View(vehicles);
         }
+
 
 
         public async Task<IActionResult> Details(int id)
