@@ -14,9 +14,9 @@ namespace Garage.Data
 
         public async Task<Vehicle> Get(int id)
         {
-            return await _context.Vehicles.Include(v => v.Owner).Include(v => v.VehicleType).FirstAsync(pe => pe.UserId == id);
+            return await _context.Vehicles.Include(v => v.Owner).Include(v => v.VehicleType).FirstOrDefaultAsync(v => v.VehicleId == id);
         }
-        
+
         public async Task<IEnumerable<Vehicle>> GetAll()
         {
             return await _context.Vehicles.Include(v => v.Owner).Include(v => v.VehicleType).ToListAsync();
@@ -30,7 +30,7 @@ namespace Garage.Data
 
         public async Task Update(Vehicle vehicle)
         {
-           _context.Entry(vehicle).State = EntityState.Modified;
+            _context.Entry(vehicle).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
 
@@ -39,8 +39,5 @@ namespace Garage.Data
             _context.Vehicles.Remove(vehicle);
             await _context.SaveChangesAsync();
         }
-
-
-
     }
 }
