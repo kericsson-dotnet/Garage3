@@ -28,4 +28,11 @@ public class SeedingService : ISeedingService
             await _vehicleTypeRepository.Add(vehicleType);
         }
     }
+
+    // Handles the check to see if Db is already seeded with stuff. Persist across requests.
+    public async Task<bool> IsDatabaseSeededAsync()
+    {
+        var vehicles = await _vehicleRepository.GetAll();
+        return vehicles.Any(v => v.RegNumber == "ZZT871");
+    }
 }
