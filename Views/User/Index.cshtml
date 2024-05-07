@@ -22,7 +22,16 @@
                 <td style="padding: 10px;">@user.FirstName</td>
                 <td style="padding: 10px;">@user.LastName</td>
                 <td style="padding: 10px;">@user.Age</td>
-                <td style="padding: 10px;">@string.Join(", ", user.Vehicles.Select(v => v.RegNumber))</td>
+                <td style="padding: 10px;">
+                    @if (user.Vehicles.Count > 0)
+                    {
+                        <a asp-action="Vehicles" asp-route-id="@user.UserId">@user.Vehicles.Count</a>
+                    }
+                    else
+                    {
+                        @:0
+                    }
+                </td>
             </tr>
         }
     </tbody>
