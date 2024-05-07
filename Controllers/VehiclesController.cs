@@ -1,6 +1,7 @@
 ﻿using Garage.Data;
 using Garage.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace Garage.Controllers
@@ -8,10 +9,15 @@ namespace Garage.Controllers
     public class VehiclesController : Controller
     {
         private readonly IRepository<Vehicle> _repository;
+        private readonly IRepository<User> _userRepository;
+        private readonly IRepository<VehicleType> _vehicleTypeRepository;
 
-        public VehiclesController(IRepository<Vehicle> repository)
+
+        public VehiclesController(IRepository<Vehicle> repository, IRepository<User> userRepository, IRepository<VehicleType> vehicleTypeRepository)
         {
             _repository = repository;
+            _userRepository = userRepository;
+            _vehicleTypeRepository = vehicleTypeRepository;
         }
         public async Task<IActionResult> Index()
         {
@@ -30,21 +36,43 @@ namespace Garage.Controllers
             return View(vehicle);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var users = await _userRepository.GetAll();
+            var vehicleTypes = await _vehicleTypeRepository.GetAll();
+
+            ViewBag.UserIds = new SelectList(users.Select(u => new { u.UserId, FullName = u.FirstName + " " + u.LastName }), "UserId", "FullName");
+            ViewBag.VehicleTypeIds = new SelectList(vehicleTypes, "VehicleTypeId", "TypeName");
+
+            return View(new Vehicle());
         }
-
-
 
         [HttpPost]
         public async Task<IActionResult> Create(Vehicle vehicle)
         {
+            var user = await _userRepository.Get(vehicle.UserId);
+            var vehicleType = await _vehicleTypeRepository.Get(vehicle.VehicleTypeId);
+
+            vehicle.Owner = user;
+            vehicle.VehicleType = vehicleType;
+
+            ModelState.ClearValidationState(nameof(vehicle.Owner));
+            TryValidateModel(nameof(vehicle.Owner));
+            ModelState.ClearValidationState(nameof(vehicle.VehicleType));
+            TryValidateModel(nameof(vehicle.Owner));
+
+
             if (ModelState.IsValid)
             {
                 await _repository.Add(vehicle);
                 return RedirectToAction(nameof(Index));
             }
+
+            var users = await _userRepository.GetAll();
+            ViewBag.UserIds = new SelectList(users, "UserId", "LastName");
+            var vehicleTypes = await _vehicleTypeRepository.GetAll();
+            ViewBag.VehicleTypeIds = new SelectList(vehicleTypes, "VehicleTypeId", "TypeName");
+
             return View(vehicle);
         }
 

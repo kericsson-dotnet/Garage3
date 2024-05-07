@@ -3,13 +3,16 @@
 <h1>Create Vehicle</h1>
 
 <form asp-action="Create" method="post">
+     <div asp-validation-summary="All" class="text-danger"></div>
+     
     <div>
-        <label for="UserId">User Id:</label>
-        <input type="text" id="UserId" name="UserId" value="@Model.UserId" />
-    </div> 
+        <label for="UserId">User:</label>
+        <select asp-for="UserId" asp-items="ViewBag.UserIds as SelectList"></select>
+    </div>
     <div>
         <label for="RegNumber">Registration Number:</label>
         <input type="text" id="RegNumber" name="RegNumber" value="@Model.RegNumber" />
+        <span asp-validation-for="RegNumber" class="text-danger"></span>
     </div>
     <div>
         <label for="Brand">Brand:</label>
@@ -27,9 +30,10 @@
         <label for="NumberOfWheels">Number of Wheels:</label>
         <input type="number" id="NumberOfWheels" name="NumberOfWheels" value="@Model.NumberOfWheels" />
     </div>
-    <div>
-        <label for="VehicleType">Vehicle Type:</label>
-        <input type="text" id="VehicleType" name="VehicleType" value="@Model.VehicleType" />
+     <div>
+        <label for="VehicleTypeId">Vehicle Type:</label>
+        <select asp-for="VehicleTypeId" asp-items="ViewBag.VehicleTypeIds as SelectList" class="form-control"></select>
+        <span asp-validation-for="VehicleTypeId" class="text-danger"></span>
     </div>
     <button type="submit">Create</button>
 </form>
