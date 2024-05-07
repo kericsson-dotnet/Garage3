@@ -13,7 +13,7 @@ namespace Garage.Controllers
         private readonly IRepository<Vehicle> _repository;
         private readonly IRepository<User> _userRepository;
         private readonly IRepository<VehicleType> _vehicleTypeRepository;
-
+        private readonly ISeedingService _seedingService;
 
         public VehiclesController(IRepository<Vehicle> repository, IRepository<User> userRepository, IRepository<VehicleType> vehicleTypeRepository, ISeedingService seedingService)
         {
