@@ -38,21 +38,5 @@ namespace Garage.Controllers
             }
             return View(vehicleType);
         }
-
-        
-        //public List<VehicleType> LoadVehicleTypeSeedsToList()
-        //{
-        //    var relativePath = Path.Combine("Data", "MockupData", "SeedVehicleTypes.txt");
-        //    var fullPath = Path.GetFullPath(relativePath);
-        //    var json = System.IO.File.ReadAllText(fullPath);
-        //    var vehicleTypeSeeds = JsonSerializer.Deserialize<List<VehicleType>>(json);
-        //    return vehicleTypeSeeds!;
-        //}
-
-        //public async Task AddVehicleTypeSeedsToDb()
-        //{
-        //    var vehicleTypeSeeds = LoadVehicleTypeSeedsToList();
-        //    await _seedingService.AddVehicleTypeSeedsAsync(vehicleTypeSeeds);
-        //}
     }
 }

@@ -20,12 +20,15 @@ namespace Garage.Controllers
         [HttpPost]
         public async Task<IActionResult> SeedDatabase()
         {
-            // Seed in the various entities in the correct order (add users todo)
-            var vehicleTypeSeeds = LoadVehicleTypeSeedsToList();
-            await _seedingService.AddVehicleTypeSeedsAsync(vehicleTypeSeeds);
+            if (!await _seedingService.IsDatabaseSeededAsync())
+            {
+                // Seed entities in the correct order (users to be added)
+                var vehicleTypeSeeds = LoadVehicleTypeSeedsToList();
+                await _seedingService.AddVehicleTypeSeedsAsync(vehicleTypeSeeds);
 
-            var vehicleSeeds = LoadVehicleSeedsToList();
-            await _seedingService.AddVehicleSeedsAsync(vehicleSeeds);
+                var vehicleSeeds = LoadVehicleSeedsToList();
+                await _seedingService.AddVehicleSeedsAsync(vehicleSeeds);
+            }
 
             return RedirectToAction("Index", "Home");
         }

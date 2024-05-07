@@ -1,8 +1,8 @@
 ﻿[
-    {"UserId": 1, "RegNumber": "AAA123", "Brand": "Volvo", "Model": "9900", "Color": "Black Stone", "NumberOfWheels": 4, "VehicleTypeId": 4},
-    {"UserId": 1, "RegNumber": "AAA456", "Brand": "Gulfstream", "Model": "G280", "Color": "Red", "NumberOfWheels": 6, "VehicleTypeId": 2},
-    {"UserId": 1, "RegNumber": "BBB123", "Brand": "Polestar", "Model": "Polestar 2", "Color": "Silver Metallic", "NumberOfWheels": 4, "VehicleTypeId": 1},
-    {"UserId": 1, "RegNumber": "CCC123", "Brand": "Tesla", "Model": "Model S", "Color": "Red", "NumberOfWheels": 4, "VehicleTypeId": 1},
-    {"UserId": 1, "RegNumber": "DDD123", "Brand": "MAN", "Model": "eTGX", "Color": "White", "NumberOfWheels": 10, "VehicleTypeId": 5},
-    {"UserId": 1, "RegNumber": "DDD456", "Brand": "Nimbus", "Model": "T11", "Color": "Mediterranean Blue", "NumberOfWheels": 0, "VehicleTypeId": 3}
+    {"UserId": 1, "RegNumber": "ZZT871", "Brand": "Volvo", "Model": "9900", "Color": "Black Stone", "NumberOfWheels": 4, "VehicleTypeId": 4},
+    {"UserId": 1, "RegNumber": "KOL555", "Brand": "Gulfstream", "Model": "G280", "Color": "Red Orange", "NumberOfWheels": 6, "VehicleTypeId": 2},
+    {"UserId": 1, "RegNumber": "PLW577", "Brand": "Polestar", "Model": "Polestar 2", "Color": "Silver Metallic", "NumberOfWheels": 4, "VehicleTypeId": 1},
+    {"UserId": 1, "RegNumber": "OSC995", "Brand": "Tesla", "Model": "Model S", "Color": "Red", "NumberOfWheels": 4, "VehicleTypeId": 1},
+    {"UserId": 1, "RegNumber": "KRE012", "Brand": "MAN", "Model": "eTGX", "Color": "White", "NumberOfWheels": 10, "VehicleTypeId": 5},
+    {"UserId": 1, "RegNumber": "BMT772", "Brand": "Nimbus", "Model": "T11", "Color": "Mediterranean Blue", "NumberOfWheels": 0, "VehicleTypeId": 3}
 ]
