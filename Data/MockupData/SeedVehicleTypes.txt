@@ -1,7 +1,7 @@
-﻿[
-	{"TypeName": "Airplane", "SlotsOccupied": "3"},	
-	{"TypeName": "Boat", "SlotsOccupied": "2"},	
-    {"TypeName": "Bus", "SlotsOccupied": "2"},
-    {"TypeName": "Truck", "SlotsOccupied": "2"},
-	{"TypeName": "Motorcycle", "SlotsOccupied": "0,3"}
+[
+	{"VehicleTypeId": "2", "TypeName": "Airplane", "SlotsOccupied": "3"},	
+	{"VehicleTypeId": "3", "TypeName": "Boat", "SlotsOccupied": "2"},	
+	{"VehicleTypeId": "4", "TypeName": "Bus", "SlotsOccupied": "2"},
+	{"VehicleTypeId": "5", "TypeName": "Truck", "SlotsOccupied": "2"},
+	{"VehicleTypeId": "6", "TypeName": "Motorcycle", "SlotsOccupied": "0,3"}
 ]
