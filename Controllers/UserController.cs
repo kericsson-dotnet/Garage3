@@ -14,11 +14,17 @@ namespace Garage.Controllers
             _repository = repository;
         }
 
-        public async Task<IActionResult> Index(string sortOrder)
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
             ViewData["NameSortParam"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["CurrentFilter"] =searchString;
             var users = await _repository.GetAll();
 
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                users = users.Where(u => u.FirstName.Contains(searchString)
+                || u.LastName.Contains(searchString));
+            }
             switch (sortOrder)
             {
                 case "name_desc":

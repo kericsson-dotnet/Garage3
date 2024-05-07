@@ -15,6 +15,10 @@ namespace Garage.Models
         public int Age { get; set; }
         public int VehicleId { get; set; }
         public List<Vehicle> Vehicles { get; set; }
+
+        // Property to store the count of vehicles
+        // If Vehicles is null, return 0
+        public int VehicleCount => Vehicles?.Count ?? 0;
         public User()
         {
             Vehicles = new List<Vehicle>();
