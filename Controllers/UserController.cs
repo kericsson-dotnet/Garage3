@@ -36,11 +36,11 @@ namespace Garage.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    await _repository.Add(user);
-                    return RedirectToAction(nameof(Index));
-                }
+                //if (ModelState.IsValid)
+                //{
+                await _repository.Add(user);
+                return RedirectToAction(nameof(Index));
+                //}
             }
             catch (DbUpdateException)
             {
