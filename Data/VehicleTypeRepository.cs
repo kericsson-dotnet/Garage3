@@ -33,9 +33,8 @@ public class VehicleTypeRepository : IRepository<VehicleType>
         await _context.SaveChangesAsync();
     }
 
-    public async Task Delete(int id)
+    public async Task Delete(VehicleType vehicleType)
     {
-        var vehicleType = await _context.VehicleTypes.FindAsync(id);
         _context.VehicleTypes.Remove(vehicleType);
         await _context.SaveChangesAsync();
     }
