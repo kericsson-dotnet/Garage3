@@ -19,7 +19,14 @@ public class UserRepository : IRepository<User>
 
     public async Task<User> Get(int id)
     {
-        return await _context.Users.Include(pe => pe.UserId).FirstAsync(pe => pe.UserId == id);
+        return await _context.Users.Include(u => u.Vehicles).FirstOrDefaultAsync(u => u.UserId == id);
+    }
+
+
+
+    public async Task<User> SearchByString(string value)
+    {
+        return await _context.Users.FirstOrDefaultAsync(u => u.FirstName == value);
     }
 
     public async Task Add(User user)

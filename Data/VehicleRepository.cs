@@ -17,6 +17,11 @@ namespace Garage.Data
             return await _context.Vehicles.Include(v => v.Owner).Include(v => v.VehicleType).FirstOrDefaultAsync(v => v.VehicleId == id);
         }
 
+        public Task<Vehicle> SearchByString(string value)
+        {
+            return _context.Vehicles.FirstOrDefaultAsync(v => v.RegNumber == value);
+        }
+
         public async Task<IEnumerable<Vehicle>> GetAll()
         {
             return await _context.Vehicles.Include(v => v.Owner).Include(v => v.VehicleType).ToListAsync();
