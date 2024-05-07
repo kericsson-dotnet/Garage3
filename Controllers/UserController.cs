@@ -36,6 +36,14 @@ namespace Garage.Controllers
             return View(user);
         }
 
-        // Implement other actions (Edit, Details, Delete)...
+        public async Task<IActionResult> Vehicles(int id)
+        {
+            var user = await _repository.Get(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View(user);
+        }
     }
 }
