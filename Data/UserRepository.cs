@@ -19,7 +19,7 @@ public class UserRepository : IRepository<User>
 
     public async Task<User> Get(int id)
     {
-        return await _context.Users.FindAsync(id);
+        return await _context.Users.Include(u => u.Vehicles).FirstOrDefaultAsync(u => u.UserId == id);
     }
 
     public async Task Add(User user)

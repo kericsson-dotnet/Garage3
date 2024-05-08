@@ -2,6 +2,17 @@
     ViewData["Title"] = "Home Page";
 }
 
+<h2>Garage Status</h2>
+
+<p>Slots in Garage: @Model.MaxSlots</p>
+
+<h3>Vehicles in Garage</h3> 
+<ul>
+    @foreach (var vehicle in Model.VehiclesInGarage)
+    {
+        <li>Vehicle RegNumber: @vehicle.RegNumber</li>
+    }
+</ul>
 <div class="custom-container3 d-flex justify-content-between align-items-start">
     <form asp-controller="Seed" asp-action="SeedDatabase" method="post">
         <button type="submit">Seed Vehicles</button>
