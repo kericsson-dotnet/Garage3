@@ -28,11 +28,13 @@ namespace Garage.Controllers
             if (!string.IsNullOrEmpty(searchString))
             {
                 vehicles = vehicles.Where(v =>
-                    v.VehicleType.TypeName.Contains(searchString) || // Search by vehicle type
-                    v.RegNumber.Contains(searchString)); // Search by registration number
+                    v.VehicleType.TypeName.Contains(searchString) || 
+                    v.RegNumber.Contains(searchString)); 
             }
 
-            
+            int vehicleCount = vehicles.Count();
+            ViewData["VehicleCount"] = vehicleCount;
+
             return View(vehicles);
         }
 
