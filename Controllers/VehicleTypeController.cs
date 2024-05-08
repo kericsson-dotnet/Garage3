@@ -2,19 +2,16 @@
 using Garage.Models;
 using Garage.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
 
 namespace Garage.Controllers
 {
     public class VehicleTypeController : Controller
     {
         private readonly IRepository<VehicleType> _repository;
-        private readonly ISeedingService _seedingService;
 
-        public VehicleTypeController(IRepository<VehicleType> repository, ISeedingService seedingService)
+        public VehicleTypeController(IRepository<VehicleType> repository)
         {
             _repository = repository;
-            _seedingService = seedingService;
         }
 
         public async Task<IActionResult> Index()
