@@ -34,10 +34,8 @@ public class ParkingEventRepository : IRepository<ParkingEvent>
         await _context.SaveChangesAsync();
     }
 
-    public async Task Delete(int id)
+    public Task<ParkingEvent> SearchByString(string value)
     {
-        var parkingEvent = await _context.ParkingEvents.FindAsync(id);
-        _context.ParkingEvents.Remove(parkingEvent);
-        await _context.SaveChangesAsync();
+        throw new NotImplementedException();
     }
 }

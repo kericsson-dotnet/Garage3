@@ -47,23 +47,34 @@ namespace Garage.Controllers
             return View(users);
         }
 
+        public async Task<IActionResult> Details(int id)
+        {
+            var user = await _repository.Get(id);
+            return user is null ? NotFound() : View(user);
+        }
+
         public IActionResult Create()
         {
             return View();
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Create")]
         public async Task<IActionResult> Create(User user)
         {
-            if (ModelState.IsValid)
+            try
             {
                 await _repository.Add(user);
                 return RedirectToAction(nameof(Index));
             }
+            catch (DbUpdateException)
+            {
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists contect system administrator.");
+            }
+
             return View(user);
         }
 
-        public async Task<IActionResult> Vehicles(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             var parkedVehicleIds = new List<int>();
             var user = await _repository.Get(id);
@@ -81,6 +92,29 @@ namespace Garage.Controllers
             ViewBag.ParkedVehicleIds = parkedVehicleIds ?? new List<int>();
             return View(user);
         }
+        
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, User user)
+        {
+            if (id != user.UserId)
+            {
+                return NotFound();
+            }
+
+
+            try
+            {
+                await _repository.Update(user);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists contect system administrator.");
+            }
+
+            return View(user);
+            
         [HttpPost]
         public async Task<IActionResult> ParkVehicle(int vehicleId)
         {

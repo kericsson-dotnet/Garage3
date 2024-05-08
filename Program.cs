@@ -85,11 +85,11 @@ app.Services.GetService<IHostApplicationLifetime>().ApplicationStarted.Register(
         var vehicles = await vehicleRepository.GetAll();
         if (!vehicles.Any())
         {
-            var user = await userRepository.Get(1);
+            var user = await userRepository.SearchByString("Första");
             var vehicleType = await vehicleTypeRepository.Get(1);
             var newVehicle = new Vehicle
             {
-                Owner = userRepository.Get(1).Result,
+                Owner = user,
                 RegNumber = "ABC123",
                 Brand = "Volvo",
                 Model = "V70",
@@ -108,7 +108,8 @@ app.Services.GetService<IHostApplicationLifetime>().ApplicationStarted.Register(
             var newParkingEvent = new ParkingEvent
             {
                 CheckInTime = DateTime.Now.AddHours(-2),
-                Vehicle = vehicleRepository.Get(1).Result,
+                CheckOutTime = DateTime.Now,
+                Vehicle = vehicleRepository.SearchByString("ABC123").Result,
             };
             await parkingEventRepository.Add(newParkingEvent);
         }

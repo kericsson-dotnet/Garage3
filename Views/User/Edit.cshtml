@@ -1,0 +1,28 @@
+﻿@model Garage.Models.User
+
+<h1>Edit User</h1>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="UserId" />
+    <div>
+        <label asp-for="UserId">User Id:</label>
+        <input asp-for="UserId" />
+    </div>
+    <div>
+        <label asp-for="FirstName">First Name:</label>
+        <input asp-for="FirstName" />
+    </div>
+    <div>
+        <label asp-for="LastName">Last Name:</label>
+        <input asp-for="LastName" />
+    </div>
+    <div>
+        <label asp-for="PersonalNumber">Person Number:</label>
+        <input asp-for="PersonalNumber" />
+    </div>
+    <div>
+        <label asp-for="Age">Age:</label>
+        <input asp-for="Age" />
+    </div>
+    <button type="submit">Save</button>
+</form>
