@@ -6,6 +6,7 @@ namespace Garage.Services
     {
         Task AddVehicleTypeSeedsAsync(List<VehicleType> vehicleTypeSeeds);
         Task AddVehicleSeedsAsync(List<Vehicle> vehicleSeeds);
+        Task AddParkingEventSeedsAsync(List<ParkingEvent> parkingEventSeeds);
         Task<bool> IsDatabaseSeededAsync();
         Task SeedDatabaseAsync();
     }

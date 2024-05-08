@@ -7,11 +7,13 @@ public class SeedingService : ISeedingService
 {
     private readonly IRepository<Vehicle> _vehicleRepository;
     private readonly IRepository<VehicleType> _vehicleTypeRepository;
+    private readonly IRepository<ParkingEvent> _parkingEventRepository;
 
-    public SeedingService(IRepository<Vehicle> vehicleRepository, IRepository<VehicleType> vehicleTypeRepository)
+    public SeedingService(IRepository<Vehicle> vehicleRepository, IRepository<VehicleType> vehicleTypeRepository, IRepository<ParkingEvent> parkingEventRepository)
     {
         _vehicleRepository = vehicleRepository;
         _vehicleTypeRepository = vehicleTypeRepository;
+        _parkingEventRepository = parkingEventRepository;
     }
 
     public async Task AddVehicleSeedsAsync(List<Vehicle> vehicleSeeds)
@@ -30,24 +32,40 @@ public class SeedingService : ISeedingService
         }
     }
 
+    public async Task AddParkingEventSeedsAsync(List<ParkingEvent> parkingEventSeeds)
+    {
+        foreach (var parkingEvent in parkingEventSeeds)
+        {
+            await _parkingEventRepository.Add(parkingEvent);
+        }
+    }
+
+    private List<T> LoadSeedsToList<T>(string relativePath)
+    {
+        var fullPath = Path.GetFullPath(relativePath);
+        var json = System.IO.File.ReadAllText(fullPath);
+        var seeds = JsonSerializer.Deserialize<List<T>>(json);
+        return seeds!;
+    }
+
     private List<Vehicle> LoadVehicleSeedsToList()
     {
         var relativePath = Path.Combine("Data", "MockupData", "SeedVehicles.txt");
-        var fullPath = Path.GetFullPath(relativePath);
-        var json = System.IO.File.ReadAllText(fullPath);
-        var vehicleSeeds = JsonSerializer.Deserialize<List<Vehicle>>(json);
-        return vehicleSeeds!;
+        return LoadSeedsToList<Vehicle>(relativePath);
     }
 
-    // TODO: break out the duplicate code
     private List<VehicleType> LoadVehicleTypeSeedsToList()
     {
         var relativePath = Path.Combine("Data", "MockupData", "SeedVehicleTypes.txt");
-        var fullPath = Path.GetFullPath(relativePath);
-        var json = System.IO.File.ReadAllText(fullPath);
-        var vehicleTypeSeeds = JsonSerializer.Deserialize<List<VehicleType>>(json);
-        return vehicleTypeSeeds!;
+        return LoadSeedsToList<VehicleType>(relativePath);
     }
+
+    private List<ParkingEvent> LoadParkingEventSeedsToList()
+    {
+        var relativePath = Path.Combine("Data", "MockupData", "SeedParkingEvents.txt");
+        return LoadSeedsToList<ParkingEvent>(relativePath);
+    }
+
     // Handles the check to see if Db is already seeded with stuff. 
     public async Task<bool> IsDatabaseSeededAsync()
     {
@@ -63,6 +81,9 @@ public class SeedingService : ISeedingService
 
         var vehicleSeeds = LoadVehicleSeedsToList();
         await AddVehicleSeedsAsync(vehicleSeeds);
+
+        var parkingEventSeeds = LoadParkingEventSeedsToList();
+        await AddParkingEventSeedsAsync(parkingEventSeeds);
     }
 
 }
