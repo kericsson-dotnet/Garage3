@@ -1,5 +1,4 @@
 ﻿using Garage.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Garage.Data
@@ -41,5 +40,8 @@ namespace Garage.Data
             _context.Vehicles.Remove(vehicle);
             await _context.SaveChangesAsync();
         }
+
+
+
     }
 }

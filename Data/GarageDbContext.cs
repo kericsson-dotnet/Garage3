@@ -24,4 +24,3 @@ public class GarageDbContext : DbContext
         options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
     }
 }
-

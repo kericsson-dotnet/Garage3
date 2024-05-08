@@ -1,6 +1,5 @@
 ﻿using Garage.Data;
 using Garage.Models;
-using Garage.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Garage.Controllers
@@ -35,5 +34,7 @@ namespace Garage.Controllers
             }
             return View(vehicleType);
         }
+
+        // Implement other actions (Edit, Details, Delete)...
     }
 }

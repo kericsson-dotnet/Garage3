@@ -1,6 +1,5 @@
 ﻿using Garage.Data;
 using Garage.Models;
-using Garage.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +24,7 @@ namespace Garage.Controllers
             var vehicles = await _repository.GetAll();
             return View(vehicles);
         }
+
 
         public async Task<IActionResult> Details(int id)
         {
@@ -143,5 +143,7 @@ namespace Garage.Controllers
             // For simplicity, returning true here assuming all ids are valid
             return true;
         }
+
+
     }
 }

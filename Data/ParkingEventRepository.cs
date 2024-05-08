@@ -19,7 +19,7 @@ public class ParkingEventRepository : IRepository<ParkingEvent>
 
     public async Task<ParkingEvent> Get(int id)
     {
-        return await _context.ParkingEvents.Include(pe => pe.Vehicle).FirstAsync(pe => pe.ParkingEventId == id);
+        return await _context.ParkingEvents.FindAsync(id);
     }
 
     public async Task Add(ParkingEvent parkingEvent)
