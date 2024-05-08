@@ -20,7 +20,8 @@ builder.Services.AddScoped<IRepository<ParkingEvent>, ParkingEventRepository>();
 
 // Other services
 builder.Services.AddScoped<IGarageService, GarageService>();
-
+// Inject services for seeding of Vehicles/vehicleTypes (todo: users next)
+builder.Services.AddScoped<ISeedingService, SeedingService>();
 
 var app = builder.Build();
 
@@ -65,7 +66,7 @@ app.Services.GetService<IHostApplicationLifetime>().ApplicationStarted.Register(
             };
             await userRepository.Add(newUser);
         }
-        
+
         // Basic seed for VehicleTypes
         var vehicleTypeRepository = scope.ServiceProvider.GetRequiredService<IRepository<VehicleType>>();
         var vehicleTypes = await vehicleTypeRepository.GetAll();

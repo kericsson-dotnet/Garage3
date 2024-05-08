@@ -14,6 +14,8 @@ namespace Garage.Models
         public string LastName { get; set; }
         public int Age { get; set; }
         public List<Vehicle> Vehicles { get; set; }
+
+       
         public User()
         {
             Vehicles = new List<Vehicle>();

@@ -1,0 +1,8 @@
+﻿[
+    {"CheckInTime": "2024-05-07T08:00:00", "CheckOutTime": null, "VehicleId": 2},
+    {"CheckInTime": "2024-05-08T09:30:00", "CheckOutTime": null, "VehicleId": 3},
+    {"CheckInTime": "2024-05-08T17:23:00", "CheckOutTime": null, "VehicleId": 4},
+    {"CheckInTime": "2024-05-08T09:03:00", "CheckOutTime": null, "VehicleId": 5},
+    {"CheckInTime": "2024-05-06T13:45:00", "CheckOutTime": null, "VehicleId": 6},
+    {"CheckInTime": "2024-05-08T14:01:00", "CheckOutTime": null, "VehicleId": 7}
+]
