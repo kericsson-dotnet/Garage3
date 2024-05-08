@@ -19,6 +19,26 @@
                 <td style="padding: 10px;">@vehicle.Brand</td>
                 <td style="padding: 10px;">@vehicle.Model</td>
                 <td style="padding: 10px;">@vehicle.Color</td>
+                @* <td style="padding: 10px;">@await Component.InvokeAsync("ParkVehicleButton")</td> *@
+                <td style="padding: 10px;">
+                @if (ViewBag.ParkedVehicleIds?.Contains(vehicle.VehicleId) ?? false)
+                {
+                    <form asp-action="UnParkVehicle" asp-controller="User" method="post">
+                        <input type="hidden" name="vehicleId" value="@vehicle.VehicleId" />
+                        <button type="submit">Unpark Vehicle</button>
+                    </form>
+                }
+                else
+                {                    
+                    <form asp-action="ParkVehicle" asp-controller="User" method="post">
+                <input type="hidden" name="vehicleId" value="@vehicle.VehicleId" />
+                <button type="submit">Park Vehicle</button>
+                </form>
+                }
+                </td>
+                @* <td style="padding: 10px;">
+                    @await Component.InvokeAsync("ParkVehicleButton", new { vehicleId = vehicle.VehicleId})
+                </td> *@
             </tr>
         }
     </tbody>
