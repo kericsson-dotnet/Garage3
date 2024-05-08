@@ -1,36 +1,28 @@
-﻿@model Garage.Models.Vehicle
+﻿@model Garage.Models.User
 
-<h1>Edit Vehicle</h1>
+<h1>Edit User</h1>
 
 <form asp-action="Edit" method="post">
-    <input type="hidden" asp-for="VehicleId" />
+    <input type="hidden" asp-for="UserId" />
     <div>
         <label asp-for="UserId">User Id:</label>
         <input asp-for="UserId" />
     </div>
     <div>
-        <label asp-for="RegNumber">Registration Number:</label>
-        <input asp-for="RegNumber" />
+        <label asp-for="FirstName">First Name:</label>
+        <input asp-for="FirstName" />
     </div>
     <div>
-        <label asp-for="Brand">Brand:</label>
-        <input asp-for="Brand" />
+        <label asp-for="LastName">Last Name:</label>
+        <input asp-for="LastName" />
     </div>
     <div>
-        <label asp-for="Model">Model:</label>
-        <input asp-for="Model" />
+        <label asp-for="PersonalNumber">Person Number:</label>
+        <input asp-for="PersonalNumber" />
     </div>
     <div>
-        <label asp-for="Color">Color:</label>
-        <input asp-for="Color" />
-    </div>
-    <div>
-        <label asp-for="NumberOfWheels">Number of Wheels:</label>
-        <input asp-for="NumberOfWheels" />
-    </div>
-    <div>
-        <label asp-for="VehicleType">Vehicle Type:</label>
-        <input asp-for="VehicleType" />
+        <label asp-for="Age">Age:</label>
+        <input asp-for="Age" />
     </div>
     <button type="submit">Save</button>
 </form>

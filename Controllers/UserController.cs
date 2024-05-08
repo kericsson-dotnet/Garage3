@@ -2,6 +2,7 @@ using Garage.Models;
 using Garage.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Garage.Controllers
 {
@@ -70,18 +71,18 @@ namespace Garage.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
+            //{
+            try
             {
-                try
-                {
-                    await _repository.Update(user);
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists contect system administrator.");
-                }
+                await _repository.Update(user);
+                return RedirectToAction(nameof(Index));
             }
+            catch (DbUpdateConcurrencyException)
+            {
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists contect system administrator.");
+            }
+            //}
             return View(user);
         }
 
