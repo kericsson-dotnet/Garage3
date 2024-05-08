@@ -1,0 +1,10 @@
+﻿[
+    {"PersonalNumber": "810629-1234", "FirstName": "Anna", "LastName": "Karlsson", "Age": 43,
+     "Vehicles": [{"RegNumber": "AAA123",},{"RegNumber": "AAA456",}]},
+    {"PersonalNumber": "561102-4564", "FirstName": "Ali", "LastName": "Haddad", "Age": 68,
+     "Vehicles": [{"RegNumber": "BBB123",}]},
+    {"PersonalNumber": "770311-4944", "FirstName": "John", "LastName": "Ålfjord", "Age": 47,
+     "Vehicles": [{"RegNumber": "CCC123",},{"RegNumber": "DDD123",}]},
+    {"PersonalNumber": "901102-5568", "FirstName": "Carmen", "LastName": "Corona", "Age": 34,
+     "Vehicles": [{"RegNumber": "DDD456",}]}
+]

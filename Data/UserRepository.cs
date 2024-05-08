@@ -19,7 +19,12 @@ public class UserRepository : IRepository<User>
 
     public async Task<User> Get(int id)
     {
-        return await _context.Users.FindAsync(id);
+        return await _context.Users.Include(u => u.Vehicles).FirstOrDefaultAsync(u => u.UserId == id);
+    }
+
+    public async Task<User> SearchByString(string value)
+    {
+        return await _context.Users.FirstOrDefaultAsync(u => u.FirstName == value);
     }
 
     public async Task Add(User user)
@@ -31,13 +36,6 @@ public class UserRepository : IRepository<User>
     public async Task Update(User user)
     {
         _context.Entry(user).State = EntityState.Modified;
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task Delete(int id)
-    {
-        var user = await _context.Users.FindAsync(id);
-        _context.Users.Remove(user);
         await _context.SaveChangesAsync();
     }
 }

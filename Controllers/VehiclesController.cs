@@ -21,6 +21,7 @@ namespace Garage.Controllers
         }
         public async Task<IActionResult> Index(string searchString)
         {
+
             
             var vehicles = await _repository.GetAll();
 
@@ -35,7 +36,11 @@ namespace Garage.Controllers
             int vehicleCount = vehicles.Count();
             ViewData["VehicleCount"] = vehicleCount;
 
+
             return View(vehicles);
+
+            //return vehicle == null ? NotFound() : View(vehicle);
+
         }
 
 
@@ -61,25 +66,20 @@ namespace Garage.Controllers
             return View(new Vehicle());
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Create")]
         public async Task<IActionResult> Create(Vehicle vehicle)
         {
-            var user = await _userRepository.Get(vehicle.UserId);
-            var vehicleType = await _vehicleTypeRepository.Get(vehicle.VehicleTypeId);
-
-            vehicle.Owner = user;
-            vehicle.VehicleType = vehicleType;
-
-            ModelState.ClearValidationState(nameof(vehicle.Owner));
-            TryValidateModel(nameof(vehicle.Owner));
-            ModelState.ClearValidationState(nameof(vehicle.VehicleType));
-            TryValidateModel(nameof(vehicle.Owner));
-
-
-            if (ModelState.IsValid)
+            try
             {
-                await _repository.Add(vehicle);
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    await _repository.Add(vehicle);
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (DbUpdateException)
+            {
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists contect system administrator.");
             }
 
             var users = await _userRepository.GetAll();
@@ -94,11 +94,7 @@ namespace Garage.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var vehicle = await _repository.Get(id);
-            if (vehicle == null)
-            {
-                return NotFound();
-            }
-            return View(vehicle);
+            return vehicle is null ? NotFound() : View(vehicle);
         }
 
         [HttpPost]
@@ -124,7 +120,7 @@ namespace Garage.Controllers
                     }
                     else
                     {
-                        throw;
+                        ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists contect system administrator.");
                     }
                 }
                 return RedirectToAction(nameof(Index));
@@ -132,30 +128,9 @@ namespace Garage.Controllers
             return View(vehicle);
         }
 
-        public async Task<IActionResult> Delete(int id)
-        {
-            var vehicle = await _repository.Get(id);
-            if (vehicle == null)
-            {
-                return NotFound();
-            }
-
-            return View(vehicle);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            await _repository.Delete(id);
-            return RedirectToAction(nameof(Index));
-        }
-
         private bool VehicleExists(int id)
         {
-            // You can implement your own logic to check if a vehicle exists
-            // For simplicity, returning true here assuming all ids are valid
-            return true;
+            return _repository.Get(id) is not null;
         }
 
 

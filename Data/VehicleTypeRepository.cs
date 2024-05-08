@@ -21,6 +21,11 @@ public class VehicleTypeRepository : IRepository<VehicleType>
         return await _context.VehicleTypes.FindAsync(id);
     }
 
+    public Task<VehicleType> SearchByString(string value)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task Add(VehicleType vehicleType)
     {
         _context.VehicleTypes.Add(vehicleType);
@@ -30,13 +35,6 @@ public class VehicleTypeRepository : IRepository<VehicleType>
     public async Task Update(VehicleType vehicleType)
     {
         _context.Entry(vehicleType).State = EntityState.Modified;
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task Delete(int id)
-    {
-        var vehicleType = await _context.VehicleTypes.FindAsync(id);
-        _context.VehicleTypes.Remove(vehicleType);
         await _context.SaveChangesAsync();
     }
 }

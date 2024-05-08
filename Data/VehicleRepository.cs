@@ -17,6 +17,11 @@ namespace Garage.Data
             return await _context.Vehicles.Include(v => v.Owner).Include(v => v.VehicleType).FirstOrDefaultAsync(v => v.VehicleId == id);
         }
 
+        public Task<Vehicle> SearchByString(string value)
+        {
+            return _context.Vehicles.FirstOrDefaultAsync(v => v.RegNumber == value);
+        }
+
         public async Task<IEnumerable<Vehicle>> GetAll()
         {
             return await _context.Vehicles.Include(v => v.Owner).Include(v => v.VehicleType).ToListAsync();
@@ -33,15 +38,5 @@ namespace Garage.Data
             _context.Entry(vehicle).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
-
-        public async Task Delete(int id)
-        {
-            var vehicle = await _context.Vehicles.FindAsync(id);
-            _context.Vehicles.Remove(vehicle);
-            await _context.SaveChangesAsync();
-        }
-
-
-
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Garage.Data;
 using Garage.Models;
+using Garage.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,10 +12,16 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<GarageDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.")));
 
+// Repository services
 builder.Services.AddScoped<IRepository<User>, UserRepository>();
 builder.Services.AddScoped<IRepository<Vehicle>, VehicleRepository>();
 builder.Services.AddScoped<IRepository<VehicleType>, VehicleTypeRepository>();
 builder.Services.AddScoped<IRepository<ParkingEvent>, ParkingEventRepository>();
+
+// Other services
+builder.Services.AddScoped<IGarageService, GarageService>();
+// Inject services for seeding of Vehicles/vehicleTypes (todo: users next)
+builder.Services.AddScoped<ISeedingService, SeedingService>();
 
 var app = builder.Build();
 
@@ -59,7 +66,7 @@ app.Services.GetService<IHostApplicationLifetime>().ApplicationStarted.Register(
             };
             await userRepository.Add(newUser);
         }
-        
+
         // Basic seed for VehicleTypes
         var vehicleTypeRepository = scope.ServiceProvider.GetRequiredService<IRepository<VehicleType>>();
         var vehicleTypes = await vehicleTypeRepository.GetAll();
@@ -78,11 +85,11 @@ app.Services.GetService<IHostApplicationLifetime>().ApplicationStarted.Register(
         var vehicles = await vehicleRepository.GetAll();
         if (!vehicles.Any())
         {
-            var user = await userRepository.Get(1);
+            var user = await userRepository.SearchByString("Första");
             var vehicleType = await vehicleTypeRepository.Get(1);
             var newVehicle = new Vehicle
             {
-                Owner = userRepository.Get(1).Result,
+                Owner = user,
                 RegNumber = "ABC123",
                 Brand = "Volvo",
                 Model = "V70",
@@ -102,7 +109,7 @@ app.Services.GetService<IHostApplicationLifetime>().ApplicationStarted.Register(
             {
                 CheckInTime = DateTime.Now.AddHours(-2),
                 CheckOutTime = DateTime.Now,
-                Vehicle = vehicleRepository.Get(1).Result,
+                Vehicle = vehicleRepository.SearchByString("ABC123").Result,
             };
             await parkingEventRepository.Add(newParkingEvent);
         }

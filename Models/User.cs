@@ -13,7 +13,6 @@ namespace Garage.Models
         [MaxLength(35)]
         public string LastName { get; set; }
         public int Age { get; set; }
-        public int VehicleId { get; set; }
         public List<Vehicle> Vehicles { get; set; }
 
        
