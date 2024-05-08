@@ -85,24 +85,5 @@ namespace Garage.Controllers
             }
             return View(parkingEvent);
         }
-
-        public async Task<IActionResult> Delete(int id)
-        {
-            var parkingEvent = await _repository.Get(id);
-            return parkingEvent is null ? NotFound() : View(parkingEvent);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            ParkingEvent parkingEvent = await _repository.Get(id);
-            if (parkingEvent == null)
-            {
-                return NotFound();
-            }
-            await _repository.Delete(parkingEvent);
-            return RedirectToAction(nameof(Index));
-        }
     }
 }

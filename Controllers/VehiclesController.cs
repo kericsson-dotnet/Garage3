@@ -109,30 +109,6 @@ namespace Garage.Controllers
             return View(vehicle);
         }
 
-        public async Task<IActionResult> Delete(int id)
-        {
-            var vehicle = await _repository.Get(id);
-            if (vehicle == null)
-            {
-                return NotFound();
-            }
-
-            return View(vehicle);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var vehicle = await _repository.Get(id);
-            if (vehicle == null)
-            {
-                return NotFound();
-            }
-            await _repository.Delete(vehicle);
-            return RedirectToAction(nameof(Index));
-        }
-
         private bool VehicleExists(int id)
         {
             return _repository.Get(id) is not null;

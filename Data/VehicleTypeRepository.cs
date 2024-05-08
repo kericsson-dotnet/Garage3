@@ -37,11 +37,4 @@ public class VehicleTypeRepository : IRepository<VehicleType>
         _context.Entry(vehicleType).State = EntityState.Modified;
         await _context.SaveChangesAsync();
     }
-
-    public async Task Delete(VehicleType vehicleType)
-    {
-        _context.VehicleTypes.Remove(vehicleType);
-        await _context.SaveChangesAsync();
-    }
-
 }

@@ -6,5 +6,4 @@ public interface IRepository<T>
     Task<T> SearchByString(string value);
     Task Add(T entity);
     Task Update(T entity);
-    Task Delete(T entity);
 }

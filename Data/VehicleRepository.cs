@@ -38,11 +38,5 @@ namespace Garage.Data
             _context.Entry(vehicle).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
-
-        public async Task Delete(Vehicle vehicle)
-        {
-            _context.Vehicles.Remove(vehicle);
-            await _context.SaveChangesAsync();
-        }
     }
 }

@@ -81,24 +81,5 @@ namespace Garage.Controllers
 
             return View(user);
         }
-
-        public async Task<IActionResult> Delete(int id)
-        {
-            var user = await _repository.Get(id);
-            return (user is null) ? NotFound() : View(user);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            User user = await _repository.Get(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            await _repository.Delete(user);
-            return RedirectToAction(nameof(Index));
-        }
     }
 }

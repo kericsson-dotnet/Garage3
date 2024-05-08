@@ -38,10 +38,4 @@ public class UserRepository : IRepository<User>
         _context.Entry(user).State = EntityState.Modified;
         await _context.SaveChangesAsync();
     }
-
-    public async Task Delete(User user)
-    {
-        _context.Users.Remove(user);
-        await _context.SaveChangesAsync();
-    }
 }
