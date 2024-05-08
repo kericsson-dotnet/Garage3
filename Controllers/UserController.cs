@@ -57,50 +57,14 @@ namespace Garage.Controllers
         {
             if (ModelState.IsValid)
             {
-                //int age = CalculateAgeFromPersonalNumber(user.PersonalNumber);
-                //if (age >= 18) 
-                //{
-                   
-                //}
-                //else
-                //{
-                //    ModelState.AddModelError("PersonalNumber", "You must be 18 or older to park a vehicle");
-                //}
+               
                 await _repository.Add(user);
                 return RedirectToAction(nameof(Index));
             }
             return View(user);
         }
 
-        //private int CalculateAgeFromPersonalNumber(string personalNumber)
-        //{
-        //   if(!Regex.IsMatch(personalNumber, @"^\d{6}-\d{4}$"))
-        //   {
-        //        return -1;
-        //   }
-
-        //    var birthDate = personalNumber.Substring(0, 6);
-        //    int year = int.Parse(birthDate.Substring(0, 2));
-        //    int month = int.Parse(birthDate.Substring(2, 2));
-        //    int day = int.Parse(birthDate.Substring(4, 2));
-
-        //    if (year >= 0 && year <= 29)
-        //    {
-        //        year += 2000;
-        //    }
-        //    else
-        //    {
-        //        year += 1900;
-        //    }
-
-        //    var birthDateTime = new DateTime(year, month, day);
-
-        //    var today = DateTime.Today;
-        //    var age = today.Year - birthDateTime.Year;
-        //    if (birthDateTime > today.AddYears(-age)) age--;
-
-        //    return age;
-        //}
+        
 
         // Implement other actions (Edit, Details, Delete)...
     }
