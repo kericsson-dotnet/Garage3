@@ -1,8 +1,7 @@
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 using Garage.Models;
 using Garage.Services;
-using Garage.Data;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace Garage.Controllers;
 
