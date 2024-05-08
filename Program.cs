@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Garage.Data;
 using Garage.Models;
+using Garage.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,10 +12,15 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<GarageDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.")));
 
+// Repository services
 builder.Services.AddScoped<IRepository<User>, UserRepository>();
 builder.Services.AddScoped<IRepository<Vehicle>, VehicleRepository>();
 builder.Services.AddScoped<IRepository<VehicleType>, VehicleTypeRepository>();
 builder.Services.AddScoped<IRepository<ParkingEvent>, ParkingEventRepository>();
+
+// Other services
+builder.Services.AddScoped<IGarageService, GarageService>();
+
 
 var app = builder.Build();
 

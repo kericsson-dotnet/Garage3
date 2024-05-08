@@ -1,0 +1,25 @@
+@model Garage.Models.User
+
+<h1>Vehicles for @Model.FirstName @Model.LastName</h1>
+
+<table border="1" cellspacing="0" cellpadding="5">
+    <thead style="background-color: #f2f2f2;">
+        <tr>
+            <th style="padding: 10px;">Registration Number</th>
+            <th style="padding: 10px;">Brand</th>
+            <th style="padding: 10px;">Model</th>
+            <th style="padding: 10px;">Color</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var vehicle in Model.Vehicles)
+        {
+            <tr>
+                <td style="padding: 10px;">@vehicle.RegNumber</td>
+                <td style="padding: 10px;">@vehicle.Brand</td>
+                <td style="padding: 10px;">@vehicle.Model</td>
+                <td style="padding: 10px;">@vehicle.Color</td>
+            </tr>
+        }
+    </tbody>
+</table>

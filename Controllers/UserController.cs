@@ -37,11 +37,8 @@ namespace Garage.Controllers
         {
             try
             {
-                //if (ModelState.IsValid)
-                //{
                 await _repository.Add(user);
                 return RedirectToAction(nameof(Index));
-                //}
             }
             catch (DbUpdateException)
             {
@@ -71,8 +68,7 @@ namespace Garage.Controllers
                 return NotFound();
             }
 
-            //if (ModelState.IsValid)
-            //{
+
             try
             {
                 await _repository.Update(user);
@@ -82,7 +78,7 @@ namespace Garage.Controllers
             {
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists contect system administrator.");
             }
-            //}
+
             return View(user);
         }
 

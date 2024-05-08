@@ -22,8 +22,6 @@ public class UserRepository : IRepository<User>
         return await _context.Users.Include(u => u.Vehicles).FirstOrDefaultAsync(u => u.UserId == id);
     }
 
-
-
     public async Task<User> SearchByString(string value)
     {
         return await _context.Users.FirstOrDefaultAsync(u => u.FirstName == value);

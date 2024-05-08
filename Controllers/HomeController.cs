@@ -1,21 +1,25 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Garage.Models;
+using Garage.Services;
 
 namespace Garage.Controllers;
 
 public class HomeController : Controller
 {
+    private readonly IGarageService _garageService;
     private readonly ILogger<HomeController> _logger;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, IGarageService garageService)
     {
         _logger = logger;
+        _garageService = garageService;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        var garageStatus = await _garageService.GetGarageStatusAsync();
+        return View(garageStatus);
     }
 
     public IActionResult Privacy()
