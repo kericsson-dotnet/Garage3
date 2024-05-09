@@ -1,22 +1,25 @@
 @model IEnumerable<Garage.Models.ParkingEvent>
 
+@{
+    ViewData["Title"] = "Index";
+}
 <h1>ParkingEvents</h1>
 
-<table>
-    <thead>
+<table border="1" cellspacing="0" cellpadding="5">
+    <thead style="background-color: #f2f2f2;">
         <tr>
-            <th>CheckInTime</th>
-            <th>CheckOutTime</th>
-            <th>Vehicle</th>
+            <th style="padding: 10px;">CheckInTime</th>
+            <th style="padding: 10px;">CheckOutTime</th>
+            <th style="padding: 10px;">Vehicle</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var parkingEvent in Model)
         {
             <tr>
-                <td>@parkingEvent.CheckInTime</td>
-                <td>@parkingEvent.CheckOutTime</td>
-                <td>@parkingEvent.Vehicle.RegNumber</td>
+                <td style="padding: 10px;">@parkingEvent.CheckInTime</td>
+                <td style="padding: 10px;">@parkingEvent.CheckOutTime</td>
+                <td style="padding: 10px;">@parkingEvent.Vehicle.RegNumber</td>
             </tr>
         }
     </tbody>
