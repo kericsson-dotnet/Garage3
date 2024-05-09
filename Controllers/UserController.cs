@@ -75,7 +75,7 @@ namespace Garage.Controllers
             return View(user);
         }
 
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Vehicles(int id)
         {
             var parkedVehicleIds = new List<int>();
             var user = await _repository.Get(id);
@@ -94,15 +94,30 @@ namespace Garage.Controllers
             return View(user);
         }
 
-        [HttpPost, ActionName("Edit")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, User user)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id != user.UserId)
+            if (id == 0)
             {
                 return NotFound();
             }
 
+            var user = await _repository.Get(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View("Edit", user);
+        }
+
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, User user)
+        {
+
+            if (id != user.UserId)
+            {
+               return NotFound();
+            }
 
             try
             {
