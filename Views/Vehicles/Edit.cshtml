@@ -34,3 +34,15 @@
     </div>
     <button type="submit">Save</button>
 </form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        <script>
+            var message = '@TempData["Message"]';
+            if (message !== "") {
+                alert(message);
+            }
+        </script>
+    }
+}

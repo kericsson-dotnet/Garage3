@@ -22,16 +22,16 @@ namespace Garage.Controllers
         public async Task<IActionResult> Index(string searchString)
         {
             var vehicle = await _repository.GetAll();
-            
-            
+
+
             var vehicles = await _repository.GetAll();
 
             // Filter vehicles based on the  search string
             if (!string.IsNullOrEmpty(searchString))
             {
                 vehicles = vehicles.Where(v =>
-                    v.VehicleType.TypeName.Contains(searchString) || 
-                    v.RegNumber.Contains(searchString)); 
+                    v.VehicleType.TypeName.Contains(searchString) ||
+                    v.RegNumber.Contains(searchString));
             }
 
             int vehicleCount = vehicles.Count();
@@ -66,12 +66,21 @@ namespace Garage.Controllers
         [HttpPost, ActionName("Create")]
         public async Task<IActionResult> Create(Vehicle vehicle)
         {
+            vehicle.Owner = await _userRepository.Get(vehicle.UserId);
+            vehicle.VehicleType = await _vehicleTypeRepository.Get(vehicle.VehicleTypeId);
+            var vehicles = await _repository.GetAll();
+            var isVehcileExist =  vehicles.Any(v => v.RegNumber.Equals(vehicle.RegNumber));
             try
             {
-                if (ModelState.IsValid)
+                if (!isVehcileExist)
                 {
                     await _repository.Add(vehicle);
+                    TempData["Message"] = "Vehcile registered successfully";
                     return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    TempData["Message"] = "Vehcile already registered!";
                 }
             }
             catch (DbUpdateException)

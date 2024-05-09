@@ -62,10 +62,21 @@ namespace Garage.Controllers
         [HttpPost, ActionName("Create")]
         public async Task<IActionResult> Create(User user)
         {
+            var Users = await _repository.GetAll();
+            var isExist = Users.Any(u => u.PersonalNumber.Equals(user.PersonalNumber));
+
             try
             {
-                await _repository.Add(user);
-                return RedirectToAction(nameof(Index));
+                if (!isExist)
+                {
+                    await _repository.Add(user);
+                    TempData["Message"] = "User registered successfully";
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    TempData["Message"] = "User already registered!";
+                }
             }
             catch (DbUpdateException)
             {
@@ -116,7 +127,7 @@ namespace Garage.Controllers
 
             if (id != user.UserId)
             {
-               return NotFound();
+                return NotFound();
             }
 
             try
