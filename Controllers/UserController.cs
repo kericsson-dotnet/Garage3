@@ -2,6 +2,7 @@ using Garage.Models;
 using Garage.Data;
 using Garage.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Garage.Controllers
 {
@@ -19,7 +20,7 @@ namespace Garage.Controllers
         public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
             ViewData["NameSortParam"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewData["CurrentFilter"] =searchString;
+            ViewData["CurrentFilter"] = searchString;
             var users = await _repository.GetAll();
 
             if (!String.IsNullOrEmpty(searchString))
@@ -61,10 +62,21 @@ namespace Garage.Controllers
         [HttpPost, ActionName("Create")]
         public async Task<IActionResult> Create(User user)
         {
+            var Users = await _repository.GetAll();
+            var isExist = Users.Any(u => u.PersonalNumber.Equals(user.PersonalNumber));
+
             try
             {
-                await _repository.Add(user);
-                return RedirectToAction(nameof(Index));
+                if (!isExist)
+                {
+                    await _repository.Add(user);
+                    TempData["Message"] = "User registered successfully";
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    TempData["Message"] = "User already registered!";
+                }
             }
             catch (DbUpdateException)
             {
@@ -74,7 +86,7 @@ namespace Garage.Controllers
             return View(user);
         }
 
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Vehicles(int id)
         {
             var parkedVehicleIds = new List<int>();
             var user = await _repository.Get(id);
@@ -92,16 +104,31 @@ namespace Garage.Controllers
             ViewBag.ParkedVehicleIds = parkedVehicleIds ?? new List<int>();
             return View(user);
         }
-        
-        [HttpPost, ActionName("Edit")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, User user)
+
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id != user.UserId)
+            if (id == 0)
             {
                 return NotFound();
             }
 
+            var user = await _repository.Get(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View("Edit", user);
+        }
+
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, User user)
+        {
+
+            if (id != user.UserId)
+            {
+                return NotFound();
+            }
 
             try
             {
@@ -114,7 +141,8 @@ namespace Garage.Controllers
             }
 
             return View(user);
-            
+        }
+
         [HttpPost]
         public async Task<IActionResult> ParkVehicle(int vehicleId)
         {
@@ -122,14 +150,14 @@ namespace Garage.Controllers
             var parkingEvent = await _garageService.ParkVehicleAsync(vehicleId);
 
             var user = parkingEvent.Vehicle.Owner;
-            return RedirectToAction("Vehicles", new {id = user.UserId});
+            return RedirectToAction("Vehicles", new { id = user.UserId });
         }
         [HttpPost]
         public async Task<IActionResult> UnParkVehicle(int vehicleId)
         {
             var parkingEvent = await _garageService.UnParkVehicleAsync(vehicleId);
             var user = parkingEvent.Vehicle.Owner;
-            return RedirectToAction("Vehicles", new {id = user.UserId});
+            return RedirectToAction("Vehicles", new { id = user.UserId });
         }
     }
 }
