@@ -2,6 +2,7 @@ using Garage.Models;
 using Garage.Data;
 using Garage.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
@@ -66,11 +67,21 @@ namespace Garage.Controllers
         [HttpPost, ActionName("Create")]
         public async Task<IActionResult> Create(User user)
         {
+            var Users = await _repository.GetAll();
+            var isExist = Users.Any(u => u.PersonalNumber.Equals(user.PersonalNumber));
+
             try
             {
-
-                await _repository.Add(user);
-                return RedirectToAction(nameof(Index));
+                if (!isExist)
+                {
+                    await _repository.Add(user);
+                    TempData["Message"] = "User registered successfully";
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    TempData["Message"] = "User already registered!";
+                }
             }
             catch (DbUpdateException)
             {
@@ -80,12 +91,7 @@ namespace Garage.Controllers
             return View(user);
         }
 
-
-
-
-
-
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Vehicles(int id)
         {
             var parkedVehicleIds = new List<int>();
             var user = await _repository.Get(id);
@@ -104,15 +110,30 @@ namespace Garage.Controllers
             return View(user);
         }
 
-        [HttpPost, ActionName("Edit")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, User user)
+
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id != user.UserId)
+            if (id == 0)
             {
                 return NotFound();
             }
 
+            var user = await _repository.Get(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View("Edit", user);
+        }
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, User user)
+        {
+
+            if (id != user.UserId)
+            {
+                return NotFound();
+            }
 
             try
             {
@@ -125,8 +146,6 @@ namespace Garage.Controllers
             }
 
             return View(user);
-
-           
 
         }
 
