@@ -34,17 +34,40 @@
     <script>
         function calculateAge() {
             var personalNumber = document.getElementById("PersonalNumber").value;
-            if (personalNumber.length >= 10) { // YYMMDDXXXX
+            if (personalNumber.length >= 10) { 
                 var birthYearPrefix = parseInt(personalNumber.substring(0, 2));
                 var birthYear = birthYearPrefix < 20 ? 2000 + birthYearPrefix : 1900 + birthYearPrefix;
-                var currentYear = new Date().getFullYear();
-                var age = currentYear - birthYear;
+
+                var birthMonth = parseInt(personalNumber.substring(2, 4));
+                var birthDay = parseInt(personalNumber.substring(4, 6));
+                
+                if (birthMonth < 1 || birthMonth > 12) {
+                    
+                    document.getElementById("Age").value = "";
+                    return;
+                }
+                
+                var maxDay = new Date(birthYear, birthMonth, 0).getDate(); 
+                if (birthDay < 1 || birthDay > maxDay) {
+                    
+                    document.getElementById("Age").value = "";
+                    return;
+                }
+
+                var birthDate = new Date(birthYear, birthMonth - 1, birthDay); 
+
+                var currentDate = new Date();
+                var age = currentDate.getFullYear() - birthDate.getFullYear();
+                
+                if (currentDate.getMonth() < birthDate.getMonth() || (currentDate.getMonth() === birthDate.getMonth() && currentDate.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+
                 document.getElementById("Age").value = age;
             } else {
                 document.getElementById("Age").value = "";
             }
         }
     </script>
+
 }
-
-
