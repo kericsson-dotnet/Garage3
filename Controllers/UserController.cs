@@ -3,6 +3,11 @@ using Garage.Data;
 using Garage.Services;
 using Microsoft.AspNetCore.Mvc;
 
+using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+using System.ComponentModel;
+using Microsoft.EntityFrameworkCore;
+
 namespace Garage.Controllers
 {
     public class UserController : Controller
@@ -19,7 +24,7 @@ namespace Garage.Controllers
         public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
             ViewData["NameSortParam"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewData["CurrentFilter"] =searchString;
+            ViewData["CurrentFilter"] = searchString;
             var users = await _repository.GetAll();
 
             if (!String.IsNullOrEmpty(searchString))
@@ -63,6 +68,7 @@ namespace Garage.Controllers
         {
             try
             {
+
                 await _repository.Add(user);
                 return RedirectToAction(nameof(Index));
             }
@@ -73,6 +79,11 @@ namespace Garage.Controllers
 
             return View(user);
         }
+
+
+
+
+
 
         public async Task<IActionResult> Edit(int id)
         {
@@ -92,7 +103,7 @@ namespace Garage.Controllers
             ViewBag.ParkedVehicleIds = parkedVehicleIds ?? new List<int>();
             return View(user);
         }
-        
+
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, User user)
@@ -114,7 +125,11 @@ namespace Garage.Controllers
             }
 
             return View(user);
-            
+
+           
+
+        }
+
         [HttpPost]
         public async Task<IActionResult> ParkVehicle(int vehicleId)
         {
@@ -122,14 +137,14 @@ namespace Garage.Controllers
             var parkingEvent = await _garageService.ParkVehicleAsync(vehicleId);
 
             var user = parkingEvent.Vehicle.Owner;
-            return RedirectToAction("Vehicles", new {id = user.UserId});
+            return RedirectToAction("Vehicles", new { id = user.UserId });
         }
         [HttpPost]
         public async Task<IActionResult> UnParkVehicle(int vehicleId)
         {
             var parkingEvent = await _garageService.UnParkVehicleAsync(vehicleId);
             var user = parkingEvent.Vehicle.Owner;
-            return RedirectToAction("Vehicles", new {id = user.UserId});
+            return RedirectToAction("Vehicles", new { id = user.UserId });
         }
     }
 }

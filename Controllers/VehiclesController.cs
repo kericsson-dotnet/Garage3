@@ -21,8 +21,7 @@ namespace Garage.Controllers
         }
         public async Task<IActionResult> Index(string searchString)
         {
-            var vehicle = await _repository.GetAll();
-            
+
             
             var vehicles = await _repository.GetAll();
 
@@ -37,7 +36,11 @@ namespace Garage.Controllers
             int vehicleCount = vehicles.Count();
             ViewData["VehicleCount"] = vehicleCount;
 
-            return vehicle == null ? NotFound() : View(vehicle);
+
+            return View(vehicles);
+
+            //return vehicle == null ? NotFound() : View(vehicle);
+
         }
 
 
