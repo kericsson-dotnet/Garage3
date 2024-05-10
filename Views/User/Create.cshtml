@@ -31,20 +31,33 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
 
-<script>
-    function calculateAge() {
-        var personalNumber = document.getElementById("PersonalNumber").value;
-        if (personalNumber.length >= 10) { // YYMMDDXXXX
-            var birthYearPrefix = parseInt(personalNumber.substring(0, 2));
-            var birthYear = birthYearPrefix < 20 ? 2000 + birthYearPrefix : 1900 + birthYearPrefix;
-            var currentYear = new Date().getFullYear();
-            var age = currentYear - birthYear;
-            document.getElementById("Age").value = age;
-        } else {
-            document.getElementById("Age").value = "";
+
+
+    <script>
+        function calculateAge() {
+            var personalNumber = document.getElementById("PersonalNumber").value;
+            if (personalNumber.length >= 10) { // YYMMDDXXXX
+                var birthYearPrefix = parseInt(personalNumber.substring(0, 2));
+                var birthYear = birthYearPrefix < 20 ? 2000 + birthYearPrefix : 1900 + birthYearPrefix;
+                var birthMonth = parseInt(personalNumber.substring(2, 4)) - 1; // Months are zero-based
+                var birthDay = parseInt(personalNumber.substring(4, 6));
+                var birthDate = new Date(birthYear, birthMonth, birthDay);
+
+                var currentDate = new Date();
+                var age = currentDate.getFullYear() - birthDate.getFullYear();
+
+                // Check if the birthday has occurred this year
+                if (currentDate.getMonth() < birthDate.getMonth() || (currentDate.getMonth() === birthDate.getMonth() && currentDate.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+
+                document.getElementById("Age").value = age;
+            } else {
+                document.getElementById("Age").value = "";
+            }
         }
-    }
-</script>
+    </script>
+
 }
 
 
