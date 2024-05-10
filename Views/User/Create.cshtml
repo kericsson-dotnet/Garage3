@@ -5,7 +5,8 @@
 <form asp-action="Create" method="post">
     <div>
         <label for="PersonalNumber">Personal Number:</label>
-        <input type="text" id="PersonalNumber" name="PersonalNumber" />
+        <input type="text" id="PersonalNumber" name="PersonalNumber" oninput="calculateAge()" />
+        <span asp-validation-for="PersonalNumber" class="text-danger"></span> 
     </div> 
     <div>
         <label for="FirstName">First Name:</label>
@@ -17,8 +18,33 @@
     </div>
     <div>
         <label for="Age">Age:</label>
-        <input type="text" id="Age" name="Age" />
-    </div>
+
+        <input type="text" id="Age" name="Age" readonly/>
+    </div>>
+
     <button type="submit">Create</button>
 </form>
+
+
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    function calculateAge() {
+        var personalNumber = document.getElementById("PersonalNumber").value;
+        if (personalNumber.length >= 10) { // YYMMDDXXXX
+            var birthYearPrefix = parseInt(personalNumber.substring(0, 2));
+            var birthYear = birthYearPrefix < 20 ? 2000 + birthYearPrefix : 1900 + birthYearPrefix;
+            var currentYear = new Date().getFullYear();
+            var age = currentYear - birthYear;
+            document.getElementById("Age").value = age;
+        } else {
+            document.getElementById("Age").value = "";
+        }
+    }
+</script>
+}
+
 
