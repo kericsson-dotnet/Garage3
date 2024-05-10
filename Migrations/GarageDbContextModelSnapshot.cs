@@ -46,6 +46,33 @@ namespace Garage.Migrations
                     b.ToTable("ParkingEvents");
                 });
 
+            modelBuilder.Entity("Garage.Models.Receipt", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CheckInTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("CheckOutTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<TimeSpan>("ParkedTime")
+                        .HasColumnType("time");
+
+                    b.Property<int>("VehicleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VehicleId");
+
+                    b.ToTable("Receipts");
+                });
+
             modelBuilder.Entity("Garage.Models.User", b =>
                 {
                     b.Property<int>("UserId")
@@ -147,6 +174,17 @@ namespace Garage.Migrations
                 });
 
             modelBuilder.Entity("Garage.Models.ParkingEvent", b =>
+                {
+                    b.HasOne("Garage.Models.Vehicle", "Vehicle")
+                        .WithMany()
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Vehicle");
+                });
+
+            modelBuilder.Entity("Garage.Models.Receipt", b =>
                 {
                     b.HasOne("Garage.Models.Vehicle", "Vehicle")
                         .WithMany()

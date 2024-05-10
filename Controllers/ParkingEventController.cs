@@ -1,7 +1,7 @@
-using Garage.Models;
 using Garage.Data;
+using Garage.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Garage.Controllers
 {
@@ -25,17 +25,40 @@ namespace Garage.Controllers
             return View();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var parkingEvents = await _repository.GetAll();
+            return View(parkingEvents);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(ParkingEvent parkingEvent)
         {
             if (ModelState.IsValid)
             {
+                parkingEvent.CheckInTime = DateTime.Now;
+
                 await _repository.Add(parkingEvent);
                 return RedirectToAction(nameof(Index));
             }
             return View(parkingEvent);
         }
 
-        // Implement other actions (Edit, Details, Delete)...
+        [HttpPost]
+        public async Task<IActionResult> Unpark(int id)
+        {
+            var parkingEvent = await _repository.Get(id);
+            if (parkingEvent == null)
+            {
+                return NotFound();
+            }
+
+            parkingEvent.CheckOutTime = DateTime.Now;
+
+            await _repository.Update(parkingEvent);
+
+            return RedirectToAction("Index");
+        }
     }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Garage.Migrations
 {
     [DbContext(typeof(GarageDbContext))]
-    [Migration("20240507132001_Init")]
-    partial class Init
+    [Migration("20240510125121_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,6 +47,33 @@ namespace Garage.Migrations
                     b.HasIndex("VehicleId");
 
                     b.ToTable("ParkingEvents");
+                });
+
+            modelBuilder.Entity("Garage.Models.Receipt", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CheckInTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("CheckOutTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<TimeSpan>("ParkedTime")
+                        .HasColumnType("time");
+
+                    b.Property<int>("VehicleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VehicleId");
+
+                    b.ToTable("Receipts");
                 });
 
             modelBuilder.Entity("Garage.Models.User", b =>
@@ -150,6 +177,17 @@ namespace Garage.Migrations
                 });
 
             modelBuilder.Entity("Garage.Models.ParkingEvent", b =>
+                {
+                    b.HasOne("Garage.Models.Vehicle", "Vehicle")
+                        .WithMany()
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Vehicle");
+                });
+
+            modelBuilder.Entity("Garage.Models.Receipt", b =>
                 {
                     b.HasOne("Garage.Models.Vehicle", "Vehicle")
                         .WithMany()

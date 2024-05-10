@@ -40,4 +40,10 @@ public class ParkingEventRepository : IRepository<ParkingEvent>
         _context.ParkingEvents.Remove(parkingEvent);
         await _context.SaveChangesAsync();
     }
+
+    public async Task AddReceipt(Receipt receipt)
+    {
+        _context.Receipts.Add(receipt);
+        await _context.SaveChangesAsync();
+    }
 }

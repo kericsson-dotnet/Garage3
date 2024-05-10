@@ -9,6 +9,7 @@ public class GarageDbContext : DbContext
     public DbSet<Vehicle> Vehicles { get; set; }
     public DbSet<ParkingEvent> ParkingEvents { get; set; }
     public DbSet<VehicleType> VehicleTypes { get; set; }
+    public DbSet<Receipt> Receipts { get; set; }
 
 
     protected readonly IConfiguration Configuration;

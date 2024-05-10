@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Garage.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -94,9 +94,36 @@ namespace Garage.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Receipts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CheckInTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CheckOutTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ParkedTime = table.Column<TimeSpan>(type: "time", nullable: false),
+                    VehicleId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Receipts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Receipts_Vehicles_VehicleId",
+                        column: x => x.VehicleId,
+                        principalTable: "Vehicles",
+                        principalColumn: "VehicleId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_ParkingEvents_VehicleId",
                 table: "ParkingEvents",
+                column: "VehicleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Receipts_VehicleId",
+                table: "Receipts",
                 column: "VehicleId");
 
             migrationBuilder.CreateIndex(
@@ -121,6 +148,9 @@ namespace Garage.Migrations
         {
             migrationBuilder.DropTable(
                 name: "ParkingEvents");
+
+            migrationBuilder.DropTable(
+                name: "Receipts");
 
             migrationBuilder.DropTable(
                 name: "Vehicles");

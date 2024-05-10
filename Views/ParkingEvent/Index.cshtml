@@ -1,23 +1,47 @@
 @model IEnumerable<Garage.Models.ParkingEvent>
 
-<h1>ParkingEvents</h1>
-
-<table>
-    <thead>
-        <tr>
-            <th>CheckInTime</th>
-            <th>CheckOutTime</th>
-            <th>Vehicle</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var parkingEvent in Model)
-        {
-            <tr>
-                <td>@parkingEvent.CheckInTime</td>
-                <td>@parkingEvent.CheckOutTime</td>
-                <td>@parkingEvent.Vehicle.RegNumber</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Parking Events</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>From</th>
+                        <th>Until</th>
+                        <th>Vehicle</th>
+                        <th>Parked Time</th>
+                        <th>Payed Amount</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var parkingEvent in Model)
+                    {
+                        <tr>
+                            <td>@parkingEvent.CheckInTime.ToString("yyyy-MM-dd HH:mm")</td>
+                            <td>@(parkingEvent.CheckOutTime.HasValue ? parkingEvent.CheckOutTime.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
+                            <td>@parkingEvent.Vehicle.RegNumber</td>
+                            <td>
+                                @if (parkingEvent.CheckOutTime.HasValue)
+                                {
+                                    var parkedTime = parkingEvent.CheckOutTime.HasValue ? parkingEvent.CheckOutTime.Value - parkingEvent.CheckInTime : TimeSpan.Zero;
+                                    var formattedParkedTime = $"Days: {parkedTime.Days} Hours: {parkedTime.Hours} Mins: {parkedTime.Minutes}";
+                                    @formattedParkedTime
+                                }                               
+                            <td></td>
+                            <td>
+                                @if (!parkingEvent.CheckOutTime.HasValue)
+                                {
+                                    <form asp-action="Unpark" asp-route-id="@parkingEvent.ParkingEventId" method="post">
+                                        <button type="submit" class="btn btn-primary">Unpark</button>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
