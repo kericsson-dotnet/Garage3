@@ -4,11 +4,6 @@ using Garage.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;
-using System.ComponentModel;
-using Microsoft.EntityFrameworkCore;
-
 namespace Garage.Controllers
 {
     public class UserController : Controller
@@ -110,7 +105,6 @@ namespace Garage.Controllers
             return View(user);
         }
 
-
         public async Task<IActionResult> Edit(int id)
         {
             if (id == 0)
@@ -125,6 +119,7 @@ namespace Garage.Controllers
             }
             return View("Edit", user);
         }
+
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, User user)
@@ -146,7 +141,6 @@ namespace Garage.Controllers
             }
 
             return View(user);
-
         }
 
         [HttpPost]
